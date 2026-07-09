@@ -63,7 +63,7 @@ The resources were deleted in the appropriate order to avoid dependency conflict
 + Select the Redis cluster.
 + Delete the cache cluster.
 
-![Cleanup ElastiCache](/images/CleanUp/ElastiCache.jpg)
+![Cleanup ElastiCache](/images/CleanUp/ElasticCache.jpg)
 
 ---
 
@@ -92,7 +92,7 @@ The resources were deleted in the appropriate order to avoid dependency conflict
 + Select the Public and Private Subnets created for the system.
 + Delete all subnets after removing their associated resources.
 
-![Cleanup Subnet](/images/CleanUp/Subnet.jpg)
+![Cleanup Subnet](/images/CleanUp/Subnets.jpg)
 
 ---
 

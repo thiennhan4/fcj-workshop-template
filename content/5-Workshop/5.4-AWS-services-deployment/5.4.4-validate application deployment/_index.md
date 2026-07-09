@@ -65,7 +65,7 @@ The verification included:
 
 ![AWS CLI](/images/aws_cli.jpg)
 
-![AWS CLI - Get Caller Identity](/images/aws_cli_get_caller_identity.jpg)
+![AWS CLI - Get Caller Identity](/images/aws_cli_sts_get_caller_identity.jpg)
 
 ---
 

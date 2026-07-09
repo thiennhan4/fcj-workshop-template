@@ -113,8 +113,8 @@ Các tài nguyên được kiểm tra bao gồm:
 - Amazon SNS
 
 Việc kiểm tra giúp xác nhận toàn bộ tài nguyên đã được tạo đúng theo kiến trúc hệ thống và đảm bảo môi trường triển khai đã sẵn sàng cho bước triển khai ứng dụng SportBooking lên AWS Cloud.
-![cloud](/images/ECS.jpg)
-![cloud](/images/EC2.jpg)
-![cloud](/images/ECR.jpg)
+![cloud](/images/cloud/ECS.jpg)
+![cloud](/images/cloud/EC2.jpg)
+![cloud](/images/cloud/ECR.jpg)
 
 

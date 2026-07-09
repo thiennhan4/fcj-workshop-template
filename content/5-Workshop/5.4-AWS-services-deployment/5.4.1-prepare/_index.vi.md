@@ -55,8 +55,8 @@ Các bước chuẩn bị gồm:
 ![Docker](/images/docker/docker_file.jpg)
 ![Docker](/images/docker/docker_file1.jpg)
 ![Docker](/images/docker/docker_file_yml.jpg)
-![Docker](/images/docker/docker_file_yml1.jpg)
-![Docker](/images/docker/docker_file_yml2.jpg)
+![Docker](/images/docker/docker_file_yml_1.jpg)
+![Docker](/images/docker/docker_file_yml_2.jpg)
 ---
 
 #### Chuẩn bị cấu hình Terraform
