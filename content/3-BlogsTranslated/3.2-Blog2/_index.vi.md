@@ -1,127 +1,102 @@
 ---
 title: "Blog 2"
-date: 2024-01-01
-weight: 1
+date: 08-07-2026
+weight: 2
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# BẢO MẬT .NET MICROSERVICES TRÊN AWS VỚI MICROSOFT ENTRA ID
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
-
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Trong quá trình tìm hiểu về kiến trúc Microservices trên AWS, mình đọc được bài viết **"Securing .NET Microservices with Entra ID on AWS"** trên AWS .NET Blog. Điều mình thấy ấn tượng là AWS hướng dẫn cách kết hợp **Microsoft Entra ID (Azure AD)** với **OAuth 2.0 Client Credentials Flow** để xây dựng cơ chế xác thực và phân quyền an toàn giữa các microservice chạy trên AWS.
 
 ---
 
-## Hướng dẫn kiến trúc
+## 1. Bài toán
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Trong kiến trúc Microservices, các service thường xuyên giao tiếp với nhau. Ví dụ:
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
+- Order Service gọi Inventory Service để kiểm tra tồn kho.
+- Inventory Service tiếp tục gọi Pricing Service để tính giá sản phẩm.
 
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
-
----
-
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
-
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+Nếu không có cơ chế xác thực phù hợp, các service có thể truy cập lẫn nhau mà không được kiểm soát, làm tăng nguy cơ truy cập trái phép hoặc rò rỉ dữ liệu.
 
 ---
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+## 2. Giải pháp của AWS
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+AWS đề xuất đăng ký mỗi microservice như một **Application** trong Microsoft Entra ID. Mỗi service sẽ có:
 
----
+- Client ID
+- Client Secret
+- Scope (quyền truy cập) riêng
 
-## The pub/sub hub
+Khi **Service A** cần gọi **Service B**, quy trình sẽ diễn ra như sau:
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+1. Service A gửi Client ID và Client Secret đến Microsoft Entra ID.
+2. Entra ID xác thực và cấp một **Access Token**.
+3. Service A gửi request đến Service B kèm Access Token trong `Authorization: Bearer`.
+4. Service B xác minh Access Token trước khi xử lý request.
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+Nhờ đó, chỉ những service được cấp quyền mới có thể truy cập API của nhau.
 
 ---
 
-## Core microservice
+## 3. Một số điểm nổi bật
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
+Bài viết cũng đề cập đến nhiều thực hành tốt giúp hệ thống hoạt động hiệu quả hơn:
 
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+- Sử dụng **OAuth 2.0 Client Credentials Flow** cho giao tiếp giữa các service.
+- Lưu **Client Secret** trong **AWS Secrets Manager** thay vì hard-code trong ứng dụng.
+- Cache **Access Token** để tái sử dụng cho đến khi gần hết hạn, giúp giảm số lần yêu cầu token mới và cải thiện hiệu năng.
+- Sử dụng `[Authorize]` trong ASP.NET Core để tự động bảo vệ các API khỏi các request không hợp lệ.
 
 ---
 
-## Front door microservice
+## 4. Đánh giá theo AWS Well-Architected Framework
 
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+### Security
+
+- Mỗi microservice có danh tính và quyền truy cập riêng.
+- Chỉ những service được cấp quyền mới có thể truy cập API.
+
+### Operational Excellence
+
+- Secrets được quản lý tập trung bằng AWS Secrets Manager.
+- Dễ dàng thay đổi hoặc xoay vòng thông tin xác thực.
+
+### Reliability
+
+- Access Token được kiểm tra và tự động làm mới khi gần hết hạn.
+- Đảm bảo quá trình xác thực luôn ổn định.
+
+### Performance Efficiency
+
+- Cache Access Token giúp giảm độ trễ.
+- Hạn chế số lần yêu cầu token đến Microsoft Entra ID.
+
+### Cost Optimization
+
+- Giảm số lần xác thực không cần thiết.
+- Tận dụng các dịch vụ managed của AWS để giảm chi phí vận hành.
 
 ---
 
-## Staging ER7 microservice
+## 5. Kết luận
 
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+Theo mình, đây là một giải pháp phù hợp cho các hệ thống **.NET Microservices** chạy trên AWS nhưng sử dụng **Microsoft Entra ID** để quản lý danh tính. Việc áp dụng **OAuth 2.0 Client Credentials Flow** không chỉ giúp bảo vệ giao tiếp giữa các service mà còn giúp hệ thống dễ mở rộng, dễ quản lý và tuân theo các thực hành bảo mật hiện đại.
 
 ---
 
-## Tính năng mới trong giải pháp
+## 6. Link bài viết gốc
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+https://aws.amazon.com/blogs/dotnet/securing-net-microservices-with-entra-id-on-aws/
+
+---
+
+## 7. Hướng dẫn
+
+- Đọc bài viết gốc để hiểu rõ hơn về kiến trúc xác thực giữa các microservice.
+- Tìm hiểu thêm về OAuth 2.0 Client Credentials Flow và Microsoft Entra ID.
+- Thực hành triển khai các .NET Microservices trên Amazon ECS hoặc AWS Fargate kết hợp AWS Secrets Manager để quản lý thông tin xác thực.

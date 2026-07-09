@@ -1,57 +1,69 @@
 ---
-title: "Week 1 Worklog"
-date: 2024-01-01
+title: " Week 1 Worklog"
+date: 17-04-2026
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+{{% notice warning %}}
+⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it directly** into your internship report, including this warning.
+{{% /notice %}}
 
 ### Week 1 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Get acquainted with the members of the First Cloud Journey program.
+* Understand the basic AWS services and learn how to use the AWS Management Console and AWS CLI.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks to be completed this week:
 
+| Day | Tasks | Start Date | Completion Date | Reference |
+| --- | ----- | ---------- | --------------- | --------- |
+| Mon | - Get to know the FCJ members <br> - Read and understand the internship rules and regulations | 17/04/2026 | 17/04/2026 | <https://hcm-rules.awsfcaj.com/> |
+| Tue | - Learn about AWS and its service categories <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + Other AWS services | 18/04/2026 | 19/04/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Wed | - Create an AWS Free Tier account <br> - Learn about AWS Management Console and AWS CLI <br> - **Hands-on Practice:** <br>&emsp; + Create an AWS account <br>&emsp; + Install and configure AWS CLI <br>&emsp; + Learn how to use AWS CLI | 20/04/2026 | 20/04/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Thu | - Learn the fundamentals of Amazon EC2 <br>&emsp; + Instance Types <br>&emsp; + Amazon Machine Images (AMI) <br>&emsp; + Elastic Block Store (EBS) <br>&emsp; + Other EC2 concepts <br> - Explore different methods of connecting to EC2 via SSH <br> - Learn about Elastic IP | 21/04/2026 | 21/04/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Fri | - **Hands-on Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume | 22/04/2026 | 22/04/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Sat | - Explore additional AWS services <br>&emsp; - Learn more through YouTube tutorials | 23/04/2026 | 23/04/2026 | <https://www.youtube.com/@AWSStudyGroup> |
 
 ### Week 1 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
+* Gained a fundamental understanding of AWS and its core service categories:
   * Compute
   * Storage
-  * Networking 
+  * Networking
   * Database
-  * ...
 
 * Successfully created and configured an AWS Free Tier account.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+<br>
 
-* Installed and configured AWS CLI on the computer, including:
+![AWS Free Tier Account](aws-account.png)
+
+* Became familiar with the AWS Management Console and learned how to navigate, access, and manage AWS services through the web interface.
+
+* Installed and configured AWS CLI, including:
   * Access Key
-  * Secret Key
+  * Secret Access Key
   * Default Region
-  * ...
 
 * Used AWS CLI to perform basic operations such as:
+  * Checking account information and CLI configuration
+  * Listing available AWS Regions
+  * Viewing EC2 resources
+  * Creating and managing Key Pairs
+  * Checking the status of running AWS services
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+* Successfully launched a **t3.micro EC2 instance**, connected to it via SSH, and terminated the instance after completing the practice.
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+<br>
+
+![EC2 Instance Terminated](ec2-instance.png)
+
+* Learned how to monitor and manage AWS resources through the EC2 Dashboard.
+
+<br>
+
+![EC2 Dashboard Overview](ec2-dashboard.png)
+
+* Developed the ability to manage AWS resources using both the AWS Management Console and AWS CLI.

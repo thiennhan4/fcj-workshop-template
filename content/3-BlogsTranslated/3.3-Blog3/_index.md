@@ -1,126 +1,180 @@
 ---
 title: "Blog 3"
-date: 2024-01-01
-weight: 1
+date: 08-07-2026
+weight: 3
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+# IMPROVING APPLICATION PERFORMANCE WITH CDN CACHING IN AWS AMPLIFY HOSTING
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+While learning about **AWS Amplify Hosting**, I came across the article **"CDN Caching Improvements for Better App Performance with AWS Amplify Hosting"** published on the AWS Front-End Web & Mobile Blog. What impressed me most is how AWS optimized the CDN caching mechanism to improve website performance without requiring developers to make significant changes to their applications.
+
+These improvements focus on increasing the **Cache Hit Ratio**, reducing unnecessary requests to the origin server, and taking full advantage of the **Amazon CloudFront Global Edge Network**. As a result, applications can deliver content faster while reducing server workload and operational costs.
 
 ---
 
-## Architecture Guidance
+## 1. The Challenge
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+Modern web applications, especially those built with React, Next.js, or other static site frameworks, rely heavily on Content Delivery Networks (CDNs) to provide fast user experiences.
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+When a user visits a website, Amazon CloudFront first checks whether the requested content already exists in its cache.
 
-**The solution architecture is now as follows:**
+- If the content is cached (**Cache Hit**), it is immediately served from the nearest Edge Location.
+- If the content is not cached (**Cache Miss**), CloudFront forwards the request to the origin server, retrieves the content, and stores it for future requests.
 
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+However, many applications suffer from low cache efficiency because their cache keys include unnecessary information, especially **Cookies**.
 
----
+For example:
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+- Google Analytics cookies
+- Session cookies
+- Tracking cookies
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+Since every user has different cookie values, CloudFront treats each request as unique even when requesting the exact same page.
 
----
+This results in:
 
-## Technology Choices and Communication Scope
-
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+- Lower Cache Hit Ratio
+- More requests reaching the origin server
+- Higher latency
+- Reduced application performance
 
 ---
 
-## The Pub/Sub Hub
+## 2. AWS Solution
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
+To solve these issues, AWS introduced several caching improvements for Amplify Hosting.
 
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+### Optimized Cache Policies
 
----
+Amplify Hosting now applies different cache policies for different content types, including:
 
-## Core Microservice
+- Static Content
+- Server-Side Rendered (SSR) Content
+- Image Optimization Content
 
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+Each content type has its own cache duration (TTL) and cache key configuration, allowing CloudFront to cache resources more efficiently.
 
 ---
 
-## Front Door Microservice
+### Removing Cookies from the Cache Key
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+One of the most significant improvements is the ability to remove cookies from the cache key.
+
+For example:
+
+```
+https://example.com
+
+Cookie:
+ga-session-id=123456
+```
+
+Previously, every different cookie value generated a unique cache key.
+
+By excluding unnecessary cookies from the cache key, multiple users can share the same cached content instead of generating separate cache entries.
+
+This leads to:
+
+- Higher Cache Hit Ratio
+- Fewer origin requests
+- Faster response times
+- Better overall performance
 
 ---
 
-## Staging ER7 Microservice
+### Additional CloudFront Headers
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+Amplify Hosting now forwards additional CloudFront headers such as:
+
+- User-Agent
+- Referer
+- CloudFront-Viewer-Country
+- CloudFront-Viewer-City
+
+These headers allow developers to:
+
+- Personalize content
+- Detect user locations
+- Analyze client devices
+- Implement more advanced server-side logic
 
 ---
 
-## New Features in the Solution
+### Native Next.js Internationalization (i18n)
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Amplify Hosting now supports **Next.js Internationalization (i18n)** natively.
+
+By forwarding the **Accept-Language** header, Next.js applications can automatically detect a user's preferred language directly from the browser request and display localized content without additional configuration.
+
+---
+
+### Brotli Compression
+
+AWS also enables **Brotli Compression** by default for all Amplify Hosting applications.
+
+Compared to traditional compression methods, Brotli produces smaller files, resulting in:
+
+- Faster page loading
+- Reduced bandwidth usage
+- Better SEO performance
+- Improved experience for mobile users
+
+---
+
+## 3. Performance Results
+
+AWS benchmarked these improvements using a **Next.js 14** application.
+
+The results showed:
+
+- Approximately **98%** improvement in average response time.
+- Approximately **98%** improvement in p95 response time.
+- Up to **99.99% Cache Hit Ratio** for static assets.
+
+In addition, the official AWS Amplify documentation website consistently achieved a cache hit ratio above **90%**, demonstrating the effectiveness of these caching optimizations in real-world environments.
+
+---
+
+## 4. Evaluation Based on the AWS Well-Architected Framework
+
+### Performance Efficiency
+
+Optimized cache policies allow CloudFront to serve content directly from nearby Edge Locations, significantly reducing latency and improving response times.
+
+### Cost Optimization
+
+A higher Cache Hit Ratio reduces the number of requests sent to the origin server, lowering compute and bandwidth costs.
+
+### Reliability
+
+CloudFront distributes content across its global edge network and automatically invalidates cache after deployments, ensuring users always receive updated content.
+
+### Operational Excellence
+
+Developers can configure cache settings directly through the AWS Amplify Console, AWS CLI, or APIs, making cache management simpler and more consistent.
+
+---
+
+## 5. Conclusion
+
+In my opinion, this is one of the most valuable performance improvements introduced to AWS Amplify Hosting. By optimizing cache policies, removing unnecessary cookies from the cache key, enabling Brotli compression, and supporting additional CloudFront features, AWS significantly improves website performance without requiring major application changes.
+
+For developers deploying React, Next.js, or static websites on Amplify Hosting, these enhancements provide an easy way to increase loading speed, improve user experience, and reduce infrastructure costs.
+
+---
+
+## 6. Original Article
+
+https://aws.amazon.com/blogs/mobile/cdn-caching-improvements-for-better-app-performance-with-aws-amplify-hosting/
+
+---
+
+## 7. Guide
+
+- Learn how Amazon CloudFront handles CDN caching.
+- Deploy a React or Next.js application on AWS Amplify Hosting.
+- Compare the Cache Hit Ratio before and after removing cookies from the cache key.
+- Experiment with the new cache policies to evaluate their impact on application performance.

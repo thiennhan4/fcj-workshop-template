@@ -1,95 +1,54 @@
 ---
-title : "VPC Endpoint Policies"
-date : 2024-01-01
+title : "Cấu hình Security Policies"
+date : 08-07-2026
 weight : 5
 chapter : false
 pre : " <b> 5.5 </b> "
 ---
 
-Khi bạn tạo một Interface Endpoint  hoặc cổng, bạn có thể đính kèm một chính sách điểm cuối để kiểm soát quyền truy cập vào dịch vụ mà bạn đang kết nối. Chính sách VPC Endpoint là chính sách tài nguyên IAM mà bạn đính kèm vào điểm cuối. Nếu bạn không đính kèm chính sách khi tạo điểm cuối, thì AWS sẽ đính kèm chính sách mặc định cho bạn để cho phép toàn quyền truy cập vào dịch vụ thông qua điểm cuối.
+#### Tổng quan
 
-Bạn có thể tạo chính sách chỉ hạn chế quyền truy cập vào các S3 bucket cụ thể. Điều này hữu ích nếu bạn chỉ muốn một số Bộ chứa S3 nhất định có thể truy cập được thông qua điểm cuối.
+Trong phần này, tôi tiến hành cấu hình các chính sách bảo mật (Security Policies) cho hệ thống SportBooking nhằm kiểm soát quyền truy cập giữa các dịch vụ AWS. Việc áp dụng các chính sách phù hợp giúp đảm bảo chỉ những tài nguyên được cấp quyền mới có thể truy cập vào các dịch vụ của hệ thống, góp phần tăng cường tính bảo mật và giảm thiểu các rủi ro trong quá trình vận hành.
 
-Trong phần này, bạn sẽ tạo chính sách VPC Endpoint hạn chế quyền truy cập vào S3 bucket được chỉ định trong chính sách VPC Endpoint.
+---
 
-![endpoint diagram](/images/5-Workshop/5.5-Policy/s3-bucket-policy.png)
+#### Cấu hình IAM Role cho Amazon ECS
 
-#### Kết nối tới EC2 và xác minh kết nối tới S3. 
++ Tạo IAM Role dành cho Amazon ECS Task.
++ Gán các quyền cần thiết để ứng dụng có thể truy cập Amazon ECR, Amazon CloudWatch và AWS Secrets Manager.
 
-1. Bắt đầu một phiên AWS Session Manager mới trên máy chủ có tên là Test-Gateway-Endpoint. Từ phiên này, xác minh rằng bạn có thể liệt kê nội dung của bucket mà bạn đã tạo trong Phần 1: Truy cập S3 từ VPC.
+![IAM Role](/images/cloud/IAM/IAM_Role.jpg)
 
-```
-aws s3 ls s3://<your-bucket-name>
-```
-![test](/images/5-Workshop/5.5-Policy/test1.png)
+---
 
-Nội dung của bucket bao gồm hai tệp có dung lượng 1GB đã được tải lên trước đó.
+---
 
-2. Tạo một bucket S3 mới; tuân thủ mẫu đặt tên mà bạn đã sử dụng trong Phần 1, nhưng thêm '-2' vào tên. Để các trường khác là mặc định và nhấp vào **Create**.
+#### Cấu hình AWS Secrets Manager
 
-![create bucket](/images/5-Workshop/5.5-Policy/create-bucket.png)
-
-3. Tạo bucket thành công.
-
-![Success](/images/5-Workshop/5.5-Policy/create-bucket-success.png)
-
-Policy mặc định cho phép truy cập vào tất cả các S3 Buckets thông qua VPC endpoint.
-
-4. Trong giao diện **Edit Policy**, sao chép và dán theo policy sau, thay thế yourbucketname-2 với tên bucket thứ hai của bạn. Policy này sẽ cho phép truy cập đến bucket mới thông qua VPC endpoint, nhưng không cho phép truy cập đến các bucket còn lại. Chọn **Save** để kích hoạt policy.
++ Tạo Secret để lưu trữ các thông tin nhạy cảm của hệ thống.
++ Cấp quyền cho Amazon ECS truy cập Secret thông qua IAM Role.
 
 
-```
-{
-  "Id": "Policy1631305502445",
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "Stmt1631305501021",
-      "Action": "s3:*",
-      "Effect": "Allow",
-      "Resource": [
-      				"arn:aws:s3:::yourbucketname-2",
-       				"arn:aws:s3:::yourbucketname-2/*"
-       ],
-      "Principal": "*"
-    }
-  ]
-}
-```
+---
 
-![custom policy](/images/5-Workshop/5.5-Policy/policy2.png)
+#### Cấu hình Security Group
 
-Cấu hình policy thành công.
++ Kiểm soát lưu lượng truy cập giữa Application Load Balancer, Amazon ECS, Amazon RDS và Amazon ElastiCache.
++ Chỉ cho phép các cổng dịch vụ cần thiết.
 
-![success](/images/5-Workshop/5.5-Policy/success.png)
+![Security Group](/images/cloud/VPC/security_group.jpg)
 
-5. Từ session của bạn trên Test-Gateway-Endpoint instance, kiểm tra truy cập đến S3 bucket bạn tạo ở bước đầu
+---
 
-```
-aws s3 ls s3://<yourbucketname>
-```
+#### Kiểm tra Security Policies
 
-Câu lệnh trả về lỗi bởi vì truy cập vào S3 bucket không có quyền trong VPC endpoint policy.
++ Kiểm tra IAM Role đã được gán cho Amazon ECS.
++ Kiểm tra ứng dụng có thể truy cập AWS Secrets Manager.
++ Kiểm tra các Security Group hoạt động đúng theo cấu hình.
 
-![error](/images/5-Workshop/5.5-Policy/error.png)
 
-6. Trở lại home directory của bạn trên EC2 instance ```cd~```
+---
 
-+ Tạo file ```fallocate -l 1G test-bucket2.xyz ```
-+ Sao chép file lên bucket thứ  2 ```aws s3 cp test-bucket2.xyz s3://<your-2nd-bucket-name>```
+#### Tóm tắt
 
-![success](/images/5-Workshop/5.5-Policy/test2.png)
-
-Thao tác này được cho phép bởi VPC endpoint policy.
-
-![success](/images/5-Workshop/5.5-Policy/test2-success.png)
-
-Sau đó chúng ta kiểm tra truy cập vào S3 bucket đầu tiên
-
- ```aws s3 cp test-bucket2.xyz s3://<your-1st-bucket-name>```
-
- ![fail](/images/5-Workshop/5.5-Policy/test2-fail.png)
-
- Câu lệnh xảy ra lỗi bởi vì bucket không có quyền truy cập bởi VPC endpoint policy.
-
-Trong phần này, bạn đã tạo chính sách VPC Endpoint cho Amazon S3 và sử dụng AWS CLI để kiểm tra chính sách. Các hoạt động AWS CLI liên quan đến bucket S3 ban đầu của bạn thất bại vì bạn áp dụng một chính sách chỉ cho phép truy cập đến bucket thứ hai mà bạn đã tạo. Các hoạt động AWS CLI nhắm vào bucket thứ hai của bạn thành công vì chính sách cho phép chúng. Những chính sách này có thể hữu ích trong các tình huống khi bạn cần kiểm soát quyền truy cập vào tài nguyên thông qua VPC Endpoint.
+Sau khi hoàn thành các bước trên, hệ thống SportBooking đã được cấu hình các chính sách bảo mật phù hợp. Các dịch vụ AWS chỉ cho phép truy cập theo đúng quyền đã được cấp, đảm bảo tính bảo mật và an toàn cho hệ thống trong quá trình triển khai và vận hành.

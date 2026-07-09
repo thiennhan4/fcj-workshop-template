@@ -1,6 +1,6 @@
 ---
 title: "Week 8 Worklog"
-date: 2024-01-01
+date: 05-06-2026
 weight: 1
 chapter: false
 pre: " <b> 1.8. </b> "
@@ -12,46 +12,44 @@ pre: " <b> 1.8. </b> "
 
 ### Week 8 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Study IAM, Shared Responsibility Model, and AWS Organizations.
+* Learn Amazon Cognito, AWS KMS, and Security Hub.
+* Practice IAM Role, CloudTrail, KMS, and Security Hub labs.
+* Consolidate all AWS Bootcamp knowledge.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Learn Module 06-01: IAM Deep Dive & Shared Responsibility Model <br>&emsp; + IAM Policies, Roles, Groups <br>&emsp; + Shared Responsibility Model <br>&emsp; + AWS Organizations and multi-account strategy | 05/06/2026 | 05/06/2026      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 3   | - Learn Module 06-02: Amazon Cognito <br>&emsp; + User Pools and Identity Pools <br>&emsp; + Application user authentication management <br>&emsp; + Integration with web and mobile apps | 06/06/2026 | 06/06/2026      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 4   | - Learn Module 06-03: AWS KMS & Security Hub <br>&emsp; + KMS key management and encryption <br>&emsp; + Security Hub for security posture management <br>&emsp; + CloudTrail for API activity logging | 07/06/2026 | 07/06/2026      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 5   | - **Practice:** Lab - IAM Role for EC2 <br>&emsp; + Create IAM Role and attach to EC2 <br>&emsp; + Configure Policy following least privilege principle <br>&emsp; + Test EC2 access to AWS services via IAM Role | 08/06/2026 | 08/06/2026      | <https://000048.awsstudygroup.com/> |
+| 6   | - **Practice:** Lab - CloudTrail, KMS & Security Hub <br>&emsp; + Enable CloudTrail logging <br>&emsp; + Create and manage KMS keys <br>&emsp; + Enable Security Hub and review security findings | 09/06/2026 | 09/06/2026      | <https://000033.awsstudygroup.com/> <br> <https://000018.awsstudygroup.com/> |
+| 7   | - Consolidate all Module 05 (Security) knowledge <br>&emsp; + Review notes and key concepts <br> - Consolidate all AWS Bootcamp knowledge <br>&emsp; + Prepare to apply knowledge to internship project | 10/06/2026 | 11/06/2026      | <https://cloudjourney.awsstudygroup.com/> |
 
 
 ### Week 8 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Deep understanding of AWS Security services:
+  * IAM Policies, Roles, Groups and least privilege principle
+  * Shared Responsibility Model between AWS and customer
+  * AWS Organizations for multi-account management
 
-* Successfully created and configured an AWS Free Tier account.
+* Learned authentication and encryption services:
+  * Amazon Cognito User Pools and Identity Pools
+  * AWS KMS key management and data encryption
+  * Security Hub for security posture management
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Completed security-related labs:
+  * Created IAM Role and attached to EC2 following least privilege
+  * Enabled CloudTrail for API activity logging
+  * Created and managed KMS keys for encryption
+  * Enabled Security Hub and reviewed security findings
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Consolidated all AWS Bootcamp knowledge:
+  * Module 01: Cloud Fundamentals, IAM, Budgets
+  * Module 02: Networking (VPC, Security Group, Route53)
+  * Module 03: VPC Peering, Transit Gateway
+  * Module 04: Compute (EC2, EBS, Auto Scaling)
+  * Module 05: Storage (S3, CloudFront)
+  * Module 06: Security (IAM, KMS, Security Hub)

@@ -1,6 +1,6 @@
 ---
 title: "Worklog Tuần 4"
-date: 2024-01-01
+date: 08-05-2026
 weight: 1
 chapter: false
 pre: " <b> 1.4. </b> "
@@ -12,48 +12,41 @@ pre: " <b> 1.4. </b> "
 
 ### Mục tiêu tuần 4:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Thực hành triển khai EC2 instance và kết nối SSH.
+* Nghiên cứu kiến trúc Hybrid DNS với Route 53 Resolver.
+* Tìm hiểu Infrastructure as Code với AWS CloudFormation.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - **Thực hành:** Lab - Triển khai EC2 trong Public Subnet <br>&emsp; + Khởi tạo EC2 instance trong Public Subnet <br>&emsp; + Gán Elastic IP và kiểm tra kết nối Internet | 08/05/2026 | 08/05/2026 | <https://000004.awsstudygroup.com/> |
+| 3   | - **Thực hành:** Lab - Kết nối SSH & EC2 Instance Connect <br>&emsp; + Kết nối EC2 qua SSH Key Pair <br>&emsp; + Kiểm tra EC2 Instance Connect Endpoint | 09/05/2026 | 09/05/2026 | <https://000004.awsstudygroup.com/> |
+| 4   | - Học Module 02: Kiến trúc Hybrid DNS <br>&emsp; + Cơ chế phân giải DNS giữa on-premise và AWS Cloud <br>&emsp; + Route 53 Resolver Inbound/Outbound Endpoints | 10/05/2026 | 10/05/2026 | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 5   | - Học Module: Infrastructure as Code với CloudFormation <br>&emsp; + Cấu trúc template CloudFormation (YAML/JSON) <br>&emsp; + Tạo và quản lý Stack | 11/05/2026 | 11/05/2026 | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 6   | - **Thực hành:** Lab - Cấu hình Route53 Resolver & DNS Rules <br>&emsp; + Tạo Route53 Resolver Inbound/Outbound Endpoints <br>&emsp; + Cấu hình DNS forwarding rules <br>&emsp; + Kiểm tra và xử lý lỗi phân giải DNS | 12/05/2026 | 13/05/2026 | <https://000010.awsstudygroup.com/> |
+| 7   | - Tổng hợp kiến thức Networking <br>&emsp; + Hoàn thành các bài Lab Module 01 và Module 02 <br>&emsp; + Tóm tắt kiến thức trọng tâm và best practices | 14/05/2026 | 14/05/2026 | <https://000003.awsstudygroup.com/> <br> <https://000010.awsstudygroup.com/> |
 
 
 ### Kết quả đạt được tuần 4:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Triển khai thành công EC2 instance trong Public Subnet:
+  * Khởi tạo EC2 instance và gán Elastic IP
+  * Kiểm tra kết nối Internet từ instance
+  * Kết nối qua SSH và EC2 Instance Connect Endpoint
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Hiểu kiến trúc Hybrid DNS trên AWS:
+  * Cơ chế phân giải DNS giữa on-premise và AWS Cloud
+  * Route 53 Resolver Inbound và Outbound Endpoints
+  * Cấu hình DNS forwarding rules
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Tìm hiểu Infrastructure as Code với CloudFormation:
+  * Cấu trúc template (định dạng YAML/JSON)
+  * Tạo, cập nhật và xóa Stack
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Hoàn thành bài lab Route53 Resolver:
+  * Cấu hình Resolver Endpoints và DNS Rules
+  * Kiểm tra và xử lý các lỗi phân giải DNS
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Tổng hợp toàn bộ kiến thức Networking từ Module 01 và Module 02.
 
 

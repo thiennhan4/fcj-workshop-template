@@ -1,6 +1,6 @@
 ---
 title: "Week 11 Worklog"
-date: 2024-01-01
+date: 16-06-2026
 weight: 2
 chapter: false
 pre: " <b> 1.11. </b> "
@@ -12,46 +12,39 @@ pre: " <b> 1.11. </b> "
 
 ### Week 11 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Initialize the backend project and design the layered architecture.
+* Implement database connection, entities, and DTOs.
+* Develop authentication using JWT and build core APIs (User, Field, Booking, Payment).
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Initialize backend project <br>&emsp; + Set up project structure based on layered architecture | 26/06/2026 | 26/06/2026      | |
+| 3   | - Construct entities, DTOs and configure database connection <br>&emsp; + Establish Connection Pool and ORM settings | 27/06/2026 | 27/06/2026      | |
+| 4   | - Implement User Registration and Login authentication <br>&emsp; + Integrate JWT (JSON Web Tokens) for security and authorization | 28/06/2026 | 28/06/2026      | |
+| 5   | - Implement User management and Field management APIs <br>&emsp; + Develop standard CRUD operations for fields and profiles | 29/06/2026 | 29/06/2026      | |
+| 6   | - Develop Booking API and implement business logic <br>&emsp; + Handle slot availability checks and booking conflict resolution | 30/06/2026 | 30/06/2026      | |
+| 7   | - Develop Payment integration service <br>&emsp; + Update booking status after successful transactions <br> - Perform code review, optimize backend core, and implement input validation | 01/07/2026 | 02/07/2026      | |
 
 
 ### Week 11 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Initialized backend project with a robust layered architecture structure:
+  * Separation of concerns: Controller, Service, Repository, Entity layers
 
-* Successfully created and configured an AWS Free Tier account.
+* Configured database persistence layer:
+  * Created domain entities and Data Transfer Objects (DTOs)
+  * Configured connection pool and confirmed database connectivity
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Implemented authentication & authorization:
+  * Secured application endpoints using stateless JWT authentication
+  * Implemented role-based access control (User, Field Owner, Admin)
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Developed core business APIs:
+  * CRUD endpoints for Users and Sports Fields
+  * Booking endpoint with conflict-prevention slot checking logic
+  * Payment processor service to handle transaction callback and update booking state
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Performed security and reliability optimization:
+  * Added request interceptors and input validation middleware to secure API inputs
+  * Optimized SQL queries to ensure quick response times

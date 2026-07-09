@@ -1,6 +1,6 @@
 ---
 title: "Worklog Tuần 3"
-date: 2024-01-01
+date: 01-05-2026
 weight: 1
 chapter: false
 pre: " <b> 1.3. </b> "
@@ -12,48 +12,39 @@ pre: " <b> 1.3. </b> "
 
 ### Mục tiêu tuần 3:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Nghiên cứu Amazon VPC và kiến trúc mạng trên AWS.
+* Hiểu Security Group, Network ACL và các thành phần mạng.
+* Thực hành tạo và cấu hình VPC, Subnet, Route Table, Gateway.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Học Module 02-01: Tổng quan Amazon VPC <br>&emsp; + Khái niệm VPC, CIDR block <br>&emsp; + Public Subnet vs Private Subnet <br>&emsp; + Internet Gateway và NAT Gateway | 01/05/2026 | 01/05/2026 | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 3   | - Học Module 02-02: Security Group & Network ACL <br>&emsp; + Firewall Stateful vs Stateless <br>&emsp; + Inbound/Outbound rules <br>&emsp; + So sánh SG và NACL | 02/05/2026 | 02/05/2026 | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 4   | - Học Module 02-03: VPN, Direct Connect, Load Balancer <br>&emsp; + Site-to-Site VPN <br>&emsp; + AWS Direct Connect <br>&emsp; + Các loại Elastic Load Balancing | 03/05/2026 | 03/05/2026 | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 5   | - **Thực hành:** Lab - Tạo VPC tùy chỉnh <br>&emsp; + Tạo VPC với CIDR block tùy chỉnh <br>&emsp; + Tạo Subnet theo từng Availability Zone <br>&emsp; + Cấu hình Route Table và Internet Gateway | 04/05/2026 | 05/05/2026 | <https://000003.awsstudygroup.com/> |
+| 6   | - **Thực hành:** Lab - Triển khai NAT Gateway <br>&emsp; + Triển khai NAT Gateway trong Public Subnet  | 06/05/2026 | 06/05/2026 | <https://000003.awsstudygroup.com/> |
+| 7   | - **Thực hành:** Lab - Kiểm tra khả năng truy cập Internet từ Private Subnet <br>&emsp; + Cấu hình Security Group và Network ACL | 07/05/2026 | 07/05/2026 | <https://000003.awsstudygroup.com/> |
+
 
 
 ### Kết quả đạt được tuần 3:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hiểu các kiến thức nền tảng về Amazon VPC:
+  * Khái niệm VPC, Subnet, CIDR block
+  * Kiến trúc Public Subnet vs Private Subnet
+  * Vai trò của Internet Gateway và NAT Gateway
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Nắm được cơ chế bảo mật trong VPC:
+  * Security Group (stateful) vs Network ACL (stateless)
+  * Cấu hình Inbound/Outbound rules
+  * Khái niệm VPN, Direct Connect và Load Balancer
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Thực hành thành công bài lab VPC:
+  * Tạo VPC tùy chỉnh với chia CIDR block
+  * Tạo Subnet trên nhiều Availability Zone
+  * Cấu hình Route Table và Internet Gateway
+  * Triển khai NAT Gateway và kiểm tra truy cập Internet từ Private Subnet
+  * Cấu hình Security Group, Network ACL và kiểm tra kết nối giữa các EC2
 
 

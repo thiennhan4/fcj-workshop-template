@@ -1,242 +1,120 @@
 ---
 title : "Các bước chuẩn bị"
-date : 2024-01-01 
+date : 08-07-2026
 weight : 2
 chapter : false
 pre : " <b> 5.2. </b> "
 ---
 
-#### IAM permissions
-Gắn IAM permission policy sau vào tài khoản aws user của bạn để triển khai và dọn dẹp tài nguyên trong workshop này.
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "cloudformation:*",
-                "cloudwatch:*",
-                "ec2:AcceptTransitGatewayPeeringAttachment",
-                "ec2:AcceptTransitGatewayVpcAttachment",
-                "ec2:AllocateAddress",
-                "ec2:AssociateAddress",
-                "ec2:AssociateIamInstanceProfile",
-                "ec2:AssociateRouteTable",
-                "ec2:AssociateSubnetCidrBlock",
-                "ec2:AssociateTransitGatewayRouteTable",
-                "ec2:AssociateVpcCidrBlock",
-                "ec2:AttachInternetGateway",
-                "ec2:AttachNetworkInterface",
-                "ec2:AttachVolume",
-                "ec2:AttachVpnGateway",
-                "ec2:AuthorizeSecurityGroupEgress",
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:CreateClientVpnEndpoint",
-                "ec2:CreateClientVpnRoute",
-                "ec2:CreateCustomerGateway",
-                "ec2:CreateDhcpOptions",
-                "ec2:CreateFlowLogs",
-                "ec2:CreateInternetGateway",
-                "ec2:CreateLaunchTemplate",
-                "ec2:CreateNetworkAcl",
-                "ec2:CreateNetworkInterface",
-                "ec2:CreateNetworkInterfacePermission",
-                "ec2:CreateRoute",
-                "ec2:CreateRouteTable",
-                "ec2:CreateSecurityGroup",
-                "ec2:CreateSubnet",
-                "ec2:CreateSubnetCidrReservation",
-                "ec2:CreateTags",
-                "ec2:CreateTransitGateway",
-                "ec2:CreateTransitGatewayPeeringAttachment",
-                "ec2:CreateTransitGatewayPrefixListReference",
-                "ec2:CreateTransitGatewayRoute",
-                "ec2:CreateTransitGatewayRouteTable",
-                "ec2:CreateTransitGatewayVpcAttachment",
-                "ec2:CreateVpc",
-                "ec2:CreateVpcEndpoint",
-                "ec2:CreateVpcEndpointConnectionNotification",
-                "ec2:CreateVpcEndpointServiceConfiguration",
-                "ec2:CreateVpnConnection",
-                "ec2:CreateVpnConnectionRoute",
-                "ec2:CreateVpnGateway",
-                "ec2:DeleteCustomerGateway",
-                "ec2:DeleteFlowLogs",
-                "ec2:DeleteInternetGateway",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DeleteNetworkInterfacePermission",
-                "ec2:DeleteRoute",
-                "ec2:DeleteRouteTable",
-                "ec2:DeleteSecurityGroup",
-                "ec2:DeleteSubnet",
-                "ec2:DeleteSubnetCidrReservation",
-                "ec2:DeleteTags",
-                "ec2:DeleteTransitGateway",
-                "ec2:DeleteTransitGatewayPeeringAttachment",
-                "ec2:DeleteTransitGatewayPrefixListReference",
-                "ec2:DeleteTransitGatewayRoute",
-                "ec2:DeleteTransitGatewayRouteTable",
-                "ec2:DeleteTransitGatewayVpcAttachment",
-                "ec2:DeleteVpc",
-                "ec2:DeleteVpcEndpoints",
-                "ec2:DeleteVpcEndpointServiceConfigurations",
-                "ec2:DeleteVpnConnection",
-                "ec2:DeleteVpnConnectionRoute",
-                "ec2:Describe*",
-                "ec2:DetachInternetGateway",
-                "ec2:DisassociateAddress",
-                "ec2:DisassociateRouteTable",
-                "ec2:GetLaunchTemplateData",
-                "ec2:GetTransitGatewayAttachmentPropagations",
-                "ec2:ModifyInstanceAttribute",
-                "ec2:ModifySecurityGroupRules",
-                "ec2:ModifyTransitGatewayVpcAttachment",
-                "ec2:ModifyVpcAttribute",
-                "ec2:ModifyVpcEndpoint",
-                "ec2:ReleaseAddress",
-                "ec2:ReplaceRoute",
-                "ec2:RevokeSecurityGroupEgress",
-                "ec2:RevokeSecurityGroupIngress",
-                "ec2:RunInstances",
-                "ec2:StartInstances",
-                "ec2:StopInstances",
-                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
-                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
-                "iam:AddRoleToInstanceProfile",
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreatePolicy",
-                "iam:CreateRole",
-                "iam:DeleteInstanceProfile",
-                "iam:DeletePolicy",
-                "iam:DeleteRole",
-                "iam:DeleteRolePolicy",
-                "iam:DetachRolePolicy",
-                "iam:GetInstanceProfile",
-                "iam:GetPolicy",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "iam:ListPolicyVersions",
-                "iam:ListRoles",
-                "iam:PassRole",
-                "iam:PutRolePolicy",
-                "iam:RemoveRoleFromInstanceProfile",
-                "lambda:CreateFunction",
-                "lambda:DeleteFunction",
-                "lambda:DeleteLayerVersion",
-                "lambda:GetFunction",
-                "lambda:GetLayerVersion",
-                "lambda:InvokeFunction",
-                "lambda:PublishLayerVersion",
-                "logs:CreateLogGroup",
-                "logs:DeleteLogGroup",
-                "logs:DescribeLogGroups",
-                "logs:PutRetentionPolicy",
-                "route53:ChangeTagsForResource",
-                "route53:CreateHealthCheck",
-                "route53:CreateHostedZone",
-                "route53:CreateTrafficPolicy",
-                "route53:DeleteHostedZone",
-                "route53:DisassociateVPCFromHostedZone",
-                "route53:GetHostedZone",
-                "route53:ListHostedZones",
-                "route53domains:ListDomains",
-                "route53domains:ListOperations",
-                "route53domains:ListTagsForDomain",
-                "route53resolver:AssociateResolverEndpointIpAddress",
-                "route53resolver:AssociateResolverRule",
-                "route53resolver:CreateResolverEndpoint",
-                "route53resolver:CreateResolverRule",
-                "route53resolver:DeleteResolverEndpoint",
-                "route53resolver:DeleteResolverRule",
-                "route53resolver:DisassociateResolverEndpointIpAddress",
-                "route53resolver:DisassociateResolverRule",
-                "route53resolver:GetResolverEndpoint",
-                "route53resolver:GetResolverRule",
-                "route53resolver:ListResolverEndpointIpAddresses",
-                "route53resolver:ListResolverEndpoints",
-                "route53resolver:ListResolverRuleAssociations",
-                "route53resolver:ListResolverRules",
-                "route53resolver:ListTagsForResource",
-                "route53resolver:UpdateResolverEndpoint",
-                "route53resolver:UpdateResolverRule",
-                "s3:AbortMultipartUpload",
-                "s3:CreateBucket",
-                "s3:DeleteBucket",
-                "s3:DeleteObject",
-                "s3:GetAccountPublicAccessBlock",
-                "s3:GetBucketAcl",
-                "s3:GetBucketOwnershipControls",
-                "s3:GetBucketPolicy",
-                "s3:GetBucketPolicyStatus",
-                "s3:GetBucketPublicAccessBlock",
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:GetBucketVersioning",
-                "s3:ListAccessPoints",
-                "s3:ListAccessPointsForObjectLambda",
-                "s3:ListAllMyBuckets",
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListBucketVersions",
-                "s3:ListJobs",
-                "s3:ListMultipartUploadParts",
-                "s3:ListMultiRegionAccessPoints",
-                "s3:ListStorageLensConfigurations",
-                "s3:PutAccountPublicAccessBlock",
-                "s3:PutBucketAcl",
-                "s3:PutBucketPolicy",
-                "s3:PutBucketPublicAccessBlock",
-                "s3:PutObject",
-                "secretsmanager:CreateSecret",
-                "secretsmanager:DeleteSecret",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:ListSecrets",
-                "secretsmanager:ListSecretVersionIds",
-                "secretsmanager:PutResourcePolicy",
-                "secretsmanager:TagResource",
-                "secretsmanager:UpdateSecret",
-                "sns:ListTopics",
-                "ssm:DescribeInstanceProperties",
-                "ssm:DescribeSessions",
-                "ssm:GetConnectionStatus",
-                "ssm:GetParameters",
-                "ssm:ListAssociations",
-                "ssm:ResumeSession",
-                "ssm:StartSession",
-                "ssm:TerminateSession"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+#### Chuẩn bị môi trường phát triển
 
+Trước khi triển khai hệ thống SportBooking lên AWS Cloud, thành viên trong nhóm  tiến hành chuẩn bị môi trường phát triển và cài đặt các công cụ cần thiết để phục vụ cho quá trình xây dựng hạ tầng, triển khai ứng dụng và quản lý tài nguyên trên nền tảng AWS.
+
+Các công cụ được sử dụng trong quá trình thực hiện gồm:
+
+- Visual Studio Code
+- Git
+- Docker Desktop
+- Terraform
+- AWS CLI
+- Tài khoản AWS
+
+*Chèn hình ảnh cài đặt hoặc các công cụ sử dụng tại đây.*
+
+---
+
+#### Cấu hình AWS CLI
+
+Sau khi cài đặt AWS CLI, tôi tiến hành cấu hình tài khoản AWS để Terraform và các công cụ khác có thể xác thực và làm việc với các dịch vụ trên AWS.
+
+Thực hiện cấu hình bằng lệnh:
+
+```bash
+aws configure
 ```
 
-#### Khởi tạo tài nguyên bằng CloudFormation
+Sau đó nhập các thông tin:
 
-Trong lab này, chúng ta sẽ dùng N.Virginia region (us-east-1).
+- AWS Access Key ID
+- AWS Secret Access Key
+- Default Region
+- Default Output Format
 
-Để chuẩn bị cho môi trường làm workshop, chúng ta deploy CloudFormation template sau (click link): [PrivateLinkWorkshop ](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://s3.us-east-1.amazonaws.com/reinvent-endpoints-builders-session/Nested.yaml&stackName=PLCloudSetup). Để nguyên các lựa chọn mặc định.
+Để kiểm tra việc cấu hình đã thành công, thành viên trong nhóm  sử dụng lệnh:
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack1.png)
+```bash
+aws sts get-caller-identity
+```
 
-+ Lựa chọn 2 mục acknowledgement 
-+ Chọn Create stack
+Lệnh trên giúp xác nhận AWS CLI đã kết nối thành công tới tài khoản AWS và sẵn sàng cho quá trình triển khai.
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack2.png)
+![aws_cli](/images/aws_cli.jpg)
+![aws_cli_sts_get_caller_identity](/images/aws_cli_sts_get_caller_identity.jpg)
+---
 
-Quá trình triển khai CloudFormation cần khoảng 15 phút để hoàn thành.
+#### Chuẩn bị Terraform
 
-![complete](/images/5-Workshop/5.2-Prerequisite/complete.png)
+Để triển khai hạ tầng theo mô hình **Infrastructure as Code (IaC)**, tôi sử dụng Terraform để xây dựng toàn bộ kiến trúc AWS cho hệ thống SportBooking.
 
-+ 2 VPCs đã được tạo
+Các Terraform script được tổ chức thành nhiều file và module nhằm thuận tiện cho việc quản lý, mở rộng và bảo trì hệ thống trong quá trình phát triển.
 
-![vpcs](/images/5-Workshop/5.2-Prerequisite/vpcs.png)
+Sau khi hoàn thành các file cấu hình Terraform, tôi tiến hành khởi tạo môi trường làm việc bằng lệnh:
 
-+ 3 EC2s đã được tạo
+```bash
+terraform init
+```
 
-![EC2](/images/5-Workshop/5.2-Prerequisite/ec2.png)
+Tiếp theo, thành viên trong nhóm  kiểm tra tính hợp lệ của các file cấu hình:
+
+```bash
+terraform validate
+```
+
+Sau đó xem trước kế hoạch triển khai các tài nguyên trên AWS:
+
+```bash
+terraform plan
+```
+
+Khi toàn bộ cấu hình hợp lệ, thành viên trong nhóm  triển khai hạ tầng bằng lệnh:
+
+```bash
+terraform apply
+```
+
+Quá trình này tự động tạo toàn bộ các tài nguyên AWS theo kiến trúc đã thiết kế.
+
+
+
+![terraform](/images/terraform.jpg)
+
+---
+
+#### Kiểm tra tài nguyên trên AWS Console
+
+Sau khi Terraform triển khai thành công, thành viên trong nhóm  tiến hành kiểm tra toàn bộ tài nguyên trên AWS Console để đảm bảo hạ tầng đã được tạo chính xác và sẵn sàng cho việc triển khai ứng dụng.
+
+Các tài nguyên được kiểm tra bao gồm:
+
+- Amazon VPC
+- Public Subnet và Private Subnet
+- Internet Gateway và NAT Gateway
+- Route Tables
+- Security Groups
+- Application Load Balancer
+- Amazon ECS Cluster
+- Amazon ECS Service
+- Amazon ECR Repository
+- Amazon RDS PostgreSQL
+- Amazon ElastiCache Redis
+- Amazon S3 Bucket
+- AWS Secrets Manager
+- Amazon CloudWatch
+- Amazon SNS
+
+Việc kiểm tra giúp xác nhận toàn bộ tài nguyên đã được tạo đúng theo kiến trúc hệ thống và đảm bảo môi trường triển khai đã sẵn sàng cho bước triển khai ứng dụng SportBooking lên AWS Cloud.
+![cloud](/images/ECS.jpg)
+![cloud](/images/EC2.jpg)
+![cloud](/images/ECR.jpg)
+
+

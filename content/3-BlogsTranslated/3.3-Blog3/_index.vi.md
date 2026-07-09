@@ -1,127 +1,183 @@
 ---
 title: "Blog 3"
-date: 2024-01-01
-weight: 1
+date: 08-07-2026
+weight: 3
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# CẢI THIỆN HIỆU SUẤT ỨNG DỤNG VỚI CDN CACHING TRONG AWS AMPLIFY HOSTING
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
+Trong quá trình tìm hiểu về **AWS Amplify Hosting**, mình đọc được bài viết **"CDN Caching Improvements for Better App Performance with AWS Amplify Hosting"** trên AWS Front-End Web & Mobile Blog. Điều mình thấy ấn tượng nhất là AWS đã tối ưu cơ chế CDN Caching trên Amplify Hosting nhằm tăng tốc độ tải website mà không yêu cầu lập trình viên phải thay đổi nhiều trong mã nguồn ứng dụng.
 
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Các cải tiến này tập trung vào việc nâng cao **Cache Hit Ratio**, giảm số lượng request phải chuyển về Origin Server và tận dụng tối đa mạng phân phối nội dung **Amazon CloudFront**. Điều này giúp người dùng truy cập website nhanh hơn, đồng thời giảm tải cho máy chủ phía sau.
 
 ---
 
-## Hướng dẫn kiến trúc
+## 1. Bài toán
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+Đối với các website hiện đại, đặc biệt là các ứng dụng React, Next.js hoặc Static Site, CDN đóng vai trò rất quan trọng trong việc phân phối nội dung.
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
+Thông thường, khi người dùng truy cập website, CloudFront sẽ kiểm tra xem nội dung đã được lưu trong bộ nhớ đệm (Cache) hay chưa.
 
-**Kiến trúc giải pháp bây giờ như sau:**
+- Nếu dữ liệu đã có trong Cache (Cache Hit), CloudFront sẽ trả về ngay từ Edge Location gần người dùng nhất.
+- Nếu chưa có (Cache Miss), CloudFront sẽ gửi request về Origin Server để lấy dữ liệu rồi lưu lại cho những lần truy cập tiếp theo.
 
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+Tuy nhiên, nhiều ứng dụng lại có **Cache Hit Ratio thấp** do Cache Key chứa quá nhiều thông tin không cần thiết, đặc biệt là **Cookies**.
 
----
+Ví dụ:
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+- Google Analytics
+- Session Cookies
+- Tracking Cookies
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+Mỗi người dùng sẽ có giá trị Cookie khác nhau. Nếu Cookie được đưa vào Cache Key thì cùng một trang web sẽ được xem là nhiều request khác nhau, khiến CloudFront không thể tái sử dụng dữ liệu đã cache.
 
----
+Điều này làm:
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
-
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+- Tăng số lượng Cache Miss.
+- Origin Server phải xử lý nhiều request hơn.
+- Tăng độ trễ.
+- Làm giảm hiệu năng của ứng dụng.
 
 ---
 
-## The pub/sub hub
+## 2. Giải pháp của AWS
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+Để giải quyết vấn đề trên, AWS đã cải tiến cơ chế Cache của Amplify Hosting thông qua nhiều tính năng mới.
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+### Tối ưu Cache Policies
 
----
+Amplify Hosting sử dụng các Cache Policy khác nhau cho từng loại nội dung như:
 
-## Core microservice
+- Static Content
+- Server-Side Rendering (SSR)
+- Image Optimization
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
-
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+Mỗi loại nội dung đều có thời gian lưu cache (TTL) và Cache Key riêng, giúp tối ưu hiệu quả lưu trữ và phân phối dữ liệu.
 
 ---
 
-## Front door microservice
+### Loại bỏ Cookies khỏi Cache Key
 
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+Đây là cải tiến quan trọng nhất trong bản cập nhật.
+
+Thay vì đưa toàn bộ Cookies vào Cache Key như trước, Amplify Hosting cho phép loại bỏ Cookies không cần thiết.
+
+Ví dụ:
+
+```
+https://example.com
+
+Cookie:
+ga-session-id=123456
+```
+
+Trước đây mỗi Cookie sẽ tạo ra một Cache Key khác nhau.
+
+Sau khi loại bỏ Cookies khỏi Cache Key, nhiều người dùng có thể sử dụng chung một phiên bản dữ liệu đã được cache.
+
+Kết quả là:
+
+- Cache Hit Ratio tăng lên đáng kể.
+- Giảm số lần truy cập Origin Server.
+- Website phản hồi nhanh hơn.
 
 ---
 
-## Staging ER7 microservice
+### Hỗ trợ thêm CloudFront Headers
 
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+AWS Amplify Hosting hiện hỗ trợ chuyển tiếp thêm nhiều Header từ CloudFront như:
+
+- User-Agent
+- Referer
+- CloudFront-Viewer-Country
+- CloudFront-Viewer-City
+
+Điều này giúp ứng dụng:
+
+- Cá nhân hóa nội dung.
+- Xác định vị trí người dùng.
+- Phân tích thiết bị truy cập.
+- Hỗ trợ nhiều kịch bản xử lý phía Server.
 
 ---
 
-## Tính năng mới trong giải pháp
+### Hỗ trợ Next.js Internationalization (i18n)
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Amplify Hosting hiện đã hỗ trợ tốt hơn cho các ứng dụng đa ngôn ngữ.
+
+Thông qua Header **Accept-Language**, Next.js có thể tự động xác định ngôn ngữ mà trình duyệt của người dùng đang sử dụng và hiển thị nội dung phù hợp mà không cần cấu hình phức tạp.
+
+---
+
+### Brotli Compression
+
+AWS cũng tự động bật **Brotli Compression** cho tất cả ứng dụng.
+
+Đây là thuật toán nén hiện đại giúp:
+
+- Giảm kích thước file HTML.
+- CSS nhỏ hơn.
+- JavaScript nhẹ hơn.
+
+Nhờ đó:
+
+- Website tải nhanh hơn.
+- Giảm băng thông.
+- Cải thiện điểm SEO.
+
+---
+
+## 3. Kết quả đạt được
+
+AWS tiến hành Benchmark với ứng dụng **Next.js 14** và ghi nhận:
+
+- Cải thiện khoảng **98%** thời gian phản hồi trung bình.
+- Cải thiện khoảng **98%** thời gian phản hồi p95.
+- Cache Hit Ratio đạt tới **99.99%** đối với Static Assets.
+
+Ngoài ra, website tài liệu của AWS Amplify cũng duy trì Cache Hit Ratio trên **90%**, cho thấy các cải tiến mang lại hiệu quả rõ rệt trong thực tế.
+
+---
+
+## 4. Đánh giá theo AWS Well-Architected Framework
+
+### Performance Efficiency
+
+Các Cache Policy mới giúp tận dụng tối đa Amazon CloudFront để phục vụ nội dung từ Edge Location gần người dùng nhất, giảm đáng kể độ trễ khi truy cập.
+
+### Cost Optimization
+
+Việc tăng Cache Hit Ratio giúp giảm số lượng request phải gửi về Origin Server, từ đó giảm chi phí xử lý và băng thông.
+
+### Reliability
+
+CloudFront tự động phân phối nội dung trên mạng lưới Edge toàn cầu và tự động làm mới Cache sau mỗi lần triển khai ứng dụng, giúp dữ liệu luôn được cập nhật.
+
+### Operational Excellence
+
+Các cấu hình Cache có thể quản lý trực tiếp trên Amplify Hosting thông qua Console, CLI hoặc API, giúp việc vận hành và bảo trì trở nên đơn giản hơn.
+
+---
+
+## 5. Kết luận
+
+Theo mình, đây là một trong những cải tiến đáng chú ý của AWS Amplify Hosting trong năm 2024. Chỉ với việc tối ưu Cache Policies, loại bỏ Cookies khỏi Cache Key và bổ sung các tính năng như Brotli Compression hay hỗ trợ Next.js i18n, AWS đã giúp cải thiện đáng kể hiệu năng của các ứng dụng web mà gần như không yêu cầu thay đổi mã nguồn.
+
+Đối với các dự án React, Next.js hoặc Static Website triển khai trên Amplify Hosting, đây là những tính năng rất đáng để tận dụng nhằm tăng tốc độ tải trang, cải thiện trải nghiệm người dùng và giảm chi phí vận hành.
+
+---
+
+## 6. Link bài viết gốc
+
+https://aws.amazon.com/blogs/mobile/cdn-caching-improvements-for-better-app-performance-with-aws-amplify-hosting/
+
+---
+
+## 7. Hướng dẫn
+
+- Tìm hiểu cơ chế hoạt động của Amazon CloudFront và CDN Cache.
+- Thực hành triển khai ứng dụng React hoặc Next.js trên AWS Amplify Hosting.
+- Quan sát Cache Hit Ratio trước và sau khi loại bỏ Cookies khỏi Cache Key để đánh giá hiệu quả của tính năng mới.

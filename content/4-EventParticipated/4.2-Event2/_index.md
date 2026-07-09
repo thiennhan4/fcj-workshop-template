@@ -1,126 +1,186 @@
 ---
 title: "Event 2"
-date: 2024-01-01
-weight: 1
+date: 30-06-2026
+weight: 5
 chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
+# Report on "FCAJ Meetup – June 30, 2026"
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+### Purpose of the Event
 
-### Event Objectives
-
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+- To share experiences in learning, personal development, and career growth in the fields of Cloud Computing and Artificial Intelligence.
+- To introduce useful tools for learning AWS and share practical experiences from participating in Hackathons.
+- To inspire students to become more confident, overcome their fears, and actively seize new opportunities.
 
 ### Speakers
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+- **Huynh Thai Linh** – *Level Up Your AWS Skills with Cloud Quest and Floci*
+- **Pham Khac Uy** – *The Iceberg of Procrastination*
+- **Nguyen Thi Quynh Nhu** – *Why We Always Need Confidence*
+- **Huynh An Khuong, Mai Quoc Anh, Nguyen Tran Minh Quan** – *Ballers Hackathon*
 
-### Key Highlights
+---
 
-#### Identifying the drawbacks of legacy application architecture
+## Key Highlights
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+### Speaker 1: Huynh Thai Linh – "Level Up Your AWS Skills with Cloud Quest and Floci"
 
-#### Transitioning to modern application architecture – Microservices
+**Challenges for AWS Beginners**
+- Concern about unexpected cloud costs.
+- Fear of misconfiguring AWS resources.
+- Limited opportunities for hands-on practice.
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+**AWS Cloud Quest**
+- A free gamified platform for learning AWS.
+- Learn through interactive missions and challenges.
+- Gain hands-on experience with AWS services.
+- Suitable for beginners.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+**Floci**
+- An open-source tool that simulates AWS services locally.
+- Eliminates cloud costs during practice.
+- Supports quick testing of cloud architectures.
+- Allows developers to experiment before deploying to the real AWS environment.
 
-#### Domain-Driven Design (DDD)
+**Recommended Learning Path**
+- Learn AWS fundamentals through Cloud Quest.
+- Practice locally with Floci.
+- Deploy applications to the real AWS Cloud after gaining confidence.
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+---
 
-#### Event-Driven Architecture
+### Speaker 2: Pham Khac Uy – "The Iceberg of Procrastination"
 
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
+**Procrastination Is More Than Laziness**
+- Laziness is only the visible part of the iceberg.
+- The real causes often come from hidden fears and emotions.
 
-#### Compute Evolution
+**Three Common Fears**
+- Fear of not being good enough.
+- Fear of being judged by others.
+- Fear of failure.
 
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
+**Consequences of Procrastination**
+- Increased stress and pressure.
+- Lost opportunities for learning and growth.
+- Falling into a cycle of continuous procrastination.
 
-#### Amazon Q Developer
+**How to Overcome Procrastination**
+- Identify the real source of fear.
+- Break large tasks into smaller, manageable steps.
+- Apply the five-minute rule to get started.
+- Take action first; confidence will come later.
 
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
+---
 
-### Key Takeaways
+### Speaker 3: Nguyen Thi Quynh Nhu – "Why We Always Need Confidence"
 
-#### Design Mindset
+**Confidence Does Not Mean Perfection**
+- Being confident does not mean knowing everything.
+- The most important thing is having the courage to start, even when feeling uncertain.
 
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
+**The Effects of Low Confidence**
+- Missing valuable opportunities for learning and personal growth.
+- Hesitating to speak up or participate in activities.
+- Being afraid to share ideas despite having the ability.
 
-#### Technical Architecture
+**Common Causes of Low Confidence**
+- Imposter Syndrome.
+- The Dunning-Kruger Effect.
+- Constantly comparing ourselves with others.
 
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
+**How to Build Confidence**
+- Prepare thoroughly before taking action.
+- Start with small successes.
+- Apply the five-second rule to act without overthinking.
+- Treat failures as valuable learning experiences.
 
-#### Modernization Strategy
+---
 
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
+### Speaker 4: Ballers Team – "Hackathon Experience"
 
-### Applying to Work
+**What Is a Hackathon?**
+- A short-term software development competition.
+- Teams collaborate to solve real-world problems.
+- Focus on building a working prototype or Minimum Viable Product (MVP).
 
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+**Benefits of Participating in Hackathons**
+- Gain practical development experience.
+- Improve teamwork skills.
+- Expand professional networking.
+- Build a stronger portfolio.
+- Enhance problem-solving abilities.
 
-### Event Experience
+**Project Development Process**
+- Brainstorm project ideas.
+- Divide responsibilities among team members.
+- Develop the Backend, Frontend, and AI components.
+- Integrate the entire system.
+- Prepare the final demonstration and pitching session.
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+**Challenges Faced**
+- Extremely limited development time.
+- Lack of sleep.
+- Unexpected technical issues.
+- Prioritizing essential features to complete the product on time.
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
+**Lessons Learned**
+- Start with solving a real-world problem.
+- Teamwork is more important than individual performance.
+- Effective time management is essential.
+- AI is a powerful assistant but cannot replace developers' critical thinking.
+- Be willing to experiment and continuously improve the product.
 
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+---
 
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+## What I Learned
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
+### Personal Development
 
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
+- Confidence is developed through continuous action.
+- Fear should not stop us from pursuing new opportunities.
+- Always stay proactive in learning and exploring new experiences.
 
-#### Some event photos
-*Add your event photos here*  
+### Technical Knowledge
 
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+- Cloud Quest and Floci are excellent tools for learning AWS.
+- Hackathons help improve software development skills within a limited timeframe.
+- AI can significantly improve productivity during software development.
+
+### Soft Skills
+
+- Communication skills.
+- Teamwork and collaboration.
+- Time management.
+- Presentation and pitching skills.
+- Problem-solving under pressure.
+
+---
+
+## Applying the Knowledge
+
+- Use AWS Cloud Quest to strengthen my AWS knowledge.
+- Practice with Floci before deploying applications to the real AWS environment.
+- Participate in Hackathons to gain more practical experience.
+- Improve my confidence by presenting ideas and sharing knowledge with others.
+- Break large tasks into smaller goals to reduce procrastination and improve productivity.
+
+---
+
+## Reflection on the Event
+
+This meetup provided valuable insights into both personal development and technical skills in the fields of Cloud Computing and Artificial Intelligence.
+
+The speakers shared not only technical knowledge but also their personal experiences in learning, working, and participating in Hackathons. Their stories helped me realize that success depends not only on technical expertise but also on confidence, teamwork, and a continuous willingness to learn.
+
+The sessions on Cloud Quest, Floci, and Hackathon experiences gave me a clearer direction for learning AWS and developing real-world software projects in the future.
+
+#### Event Photos
+
+*Add event photos here.*
+
+![Your event photo](/images/event_305.jpg)
+
+> Overall, this event helped me better understand the importance of confidence, effective ways to overcome procrastination, and practical methods for learning AWS. The knowledge and experiences shared during the meetup will be valuable for both my academic journey and my future career.

@@ -1,125 +1,112 @@
 ---
-title: "Event 1"
-date: 2024-01-01
+title: "Sự kiện  1"
+date: 09-05-2026 
 weight: 1
 chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+# Bài thu hoạch “Automated Prompt Engineering: Enhancing LLM Output Quality”
 
 ### Mục Đích Của Sự Kiện
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+- Giúp người tham dự hiểu được tầm quan trọng của Prompt Engineering trong việc khai thác hiệu quả các mô hình AI hiện đại.
+- Chia sẻ quy trình xây dựng prompt có cấu trúc nhằm nâng cao chất lượng phản hồi của mô hình ngôn ngữ.
+- Giới thiệu các phương pháp tự động tối ưu prompt để cải thiện hiệu suất và giảm thời gian thử nghiệm.
+- Trình bày các công cụ hỗ trợ phát triển ứng dụng AI kết hợp với nền tảng AWS.
+- Cập nhật xu hướng ứng dụng AI và LLM trong quá trình phát triển phần mềm.
 
 ### Danh Sách Diễn Giả
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+### Diễn giả
+
+- **Long Hoang** - Amazon Web Services (AWS).
+- **Thinh Nguyen** - Amazon Web Services (AWS).
+- **Khang Nguyen** - Associate Specialist Solutions Architect (Serverless), AWS.
+- **Thao Nguyen Phuong** - Associate Specialist Solutions Architect (Serverless), AWS.
 
 ### Nội Dung Nổi Bật
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+#### Các nguyên tắc xây dựng Prompt hiệu quả
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+- Xác định rõ vai trò của AI trước khi đưa ra yêu cầu.
+- Cung cấp đầy đủ ngữ cảnh giúp AI hiểu đúng bài toán.
+- Quy định rõ định dạng đầu ra để dễ dàng xử lý dữ liệu.
+- Sử dụng ví dụ minh họa để tăng tính chính xác.
+- Đặt giới hạn và điều kiện nhằm giảm nội dung không cần thiết.
+- Đánh giá và cải tiến prompt thông qua nhiều lần thử nghiệm.
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+#### AI kết hợp cùng AWS trong phát triển phần mềm
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+- Giới thiệu môi trường thực hành AWS dành cho người mới.
+- Chia sẻ phương pháp kiểm thử dịch vụ AWS trên môi trường cục bộ.
+- So sánh các công cụ mô phỏng dịch vụ AWS phục vụ quá trình phát triển.
+- Minh họa quy trình sử dụng AI hỗ trợ thiết kế kiến trúc Cloud.
+- Giới thiệu cách AI hỗ trợ tạo API, tài liệu kỹ thuật và kiểm tra mã nguồn.
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+### Ứng dụng AI trong phát triển dự án
 
-#### Domain-Driven Design (DDD)
-
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
-
-#### Event-Driven Architecture
-
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
-
-#### Compute Evolution
-
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
-
-#### Amazon Q Developer
-
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
+- Hỗ trợ sinh mã nguồn theo yêu cầu.
+- Gợi ý cải thiện chất lượng mã và tối ưu hiệu năng.
+- Phân tích lỗi và đề xuất hướng xử lý.
+- Hỗ trợ xây dựng tài liệu kỹ thuật.
+- Hỗ trợ thiết kế kiến trúc hệ thống trên AWS.
 
 ### Những Gì Học Được
 
-#### Tư Duy Thiết Kế
+#### Kiến thức chuyên môn
 
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
+- Hiểu quy trình xây dựng Prompt Engineering có hệ thống.
+- Biết cách cải thiện chất lượng phản hồi của AI thông qua việc bổ sung ngữ cảnh.
+- Hiểu lợi ích của Automated Prompt Engineering trong các dự án AI.
+- Nắm được quy trình kiểm thử ứng dụng AWS trước khi triển khai.
 
-#### Kiến Trúc Kỹ Thuật
+#### Kỹ năng thực tế
 
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
+- Viết prompt rõ ràng và có cấu trúc hơn.
+- Biết cách khai thác AI để hỗ trợ lập trình và học tập.
+- Có thêm kinh nghiệm sử dụng AI trong quá trình phát triển ứng dụng Cloud.
 
-#### Chiến Lược Hiện Đại Hóa
+#### Xu hướng công nghệ
 
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
+- AI đang trở thành công cụ hỗ trợ lập trình viên trong nhiều lĩnh vực.
+- Prompt Engineering dần trở thành kỹ năng quan trọng đối với lập trình hiện đại.
+- AWS tiếp tục mở rộng các dịch vụ tích hợp AI phục vụ doanh nghiệp.
+
+---
 
 ### Ứng Dụng Vào Công Việc
 
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
+- Áp dụng các kỹ thuật Prompt Engineering khi sử dụng AI hỗ trợ lập trình.
+- Sử dụng AI để kiểm tra mã nguồn và giải thích lỗi.
+- Kết hợp AI trong việc thiết kế kiến trúc hệ thống trên AWS.
+- Áp dụng quy trình kiểm thử cục bộ trước khi triển khai lên Cloud.
 
-### Trải nghiệm trong event
+---
 
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
+### Trải Nghiệm Trong Event
 
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
+#### Kiến thức thu nhận
 
-#### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
+- Nội dung được trình bày logic và bám sát thực tế.
+- Các ví dụ minh họa giúp dễ dàng hình dung cách áp dụng.
 
-#### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
+#### Chia sẻ từ chuyên gia
 
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
+- Các diễn giả chia sẻ nhiều kinh nghiệm triển khai dự án thực tế.
+- Hiểu thêm về quy trình phát triển ứng dụng AI trên AWS.
+
+#### Kết nối cộng đồng
+
+- Có cơ hội trao đổi cùng các lập trình viên và người tham dự.
+- Mở rộng góc nhìn về xu hướng AI trong ngành CNTT.
 
 #### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
 
-#### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+- Một prompt chất lượng sẽ tạo ra kết quả tốt hơn đáng kể.
+- AI có thể trở thành công cụ hỗ trợ hiệu quả nếu biết cách khai thác.
+- Kết hợp AI và AWS giúp tăng tốc quá trình phát triển phần mềm.
+
+---
+
+> **Tổng kết:** Sự kiện giúp tôi hiểu rõ hơn về cách xây dựng Prompt hiệu quả, đồng thời mở rộng kiến thức về việc kết hợp AI với AWS trong phát triển phần mềm. Những kiến thức này sẽ hỗ trợ tôi áp dụng AI tốt hơn trong học tập cũng như các dự án thực tế.

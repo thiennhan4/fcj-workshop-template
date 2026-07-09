@@ -1,6 +1,6 @@
 ---
 title: "Worklog Tuần 10"
-date: 2024-01-01
+date: 19-06-2026
 weight: 2
 chapter: false
 pre: " <b> 1.10. </b> "
@@ -12,48 +12,29 @@ pre: " <b> 1.10. </b> "
 
 ### Mục tiêu tuần 10:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Lên ý tưởng tổng thể cho đề tài Hệ thống đặt sân thể thao (Sports Field Booking System).
+* Thiết kế mô hình nghiệp vụ và cơ sở dữ liệu (ERD).
+* Nghiên cứu dịch vụ AWS phù hợp và vẽ sơ đồ kiến trúc hệ thống.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Lên ý tưởng tổng thể cho hệ thống Sports Field Booking System <br>&emsp; + Xác định phạm vi và mục tiêu dự án | 19/06/2026 | 19/06/2026 | |
+| 3   | - Thiết kế sơ đồ Use Case và mô hình nghiệp vụ cho hệ thống <br>&emsp; + Mô hình hóa luồng đặt sân và tương tác của người dùng | 20/06/2026 | 20/06/2026 | |
+| 4   | - Thiết kế cơ sở dữ liệu (ERD) cho hệ thống đặt sân thể thao <br>&emsp; + Xác định các bảng, thuộc tính và mối quan hệ (Users, Fields, Bookings, Payments) | 21/06/2026 | 21/06/2026 | |
+| 5   | - Nghiên cứu các dịch vụ AWS phù hợp để triển khai hệ thống <br>&emsp; + Các dịch vụ Compute (EC2), Storage (S3, CloudFront), và Database (RDS) | 22/06/2026 | 22/06/2026 | |
+| 6   | - Vẽ sơ đồ kiến trúc AWS (Architecture Diagram) bằng Draw.io <br>&emsp; + Thực hành vẽ và tối ưu sơ đồ kiến trúc đám mây | 23/06/2026 | 23/06/2026 | <https://www.youtube.com/watch?v=l8isyDe-GwY> |
+| 7   | - Thiết kế Amazon VPC trên sơ đồ kiến trúc <br>&emsp; + Thiết kế Public Subnet và Private Subnet <br> - Hoàn thiện sơ đồ kiến trúc AWS, rà soát tính khả thi của mô hình | 24/06/2026 | 25/06/2026 | <https://www.youtube.com/watch?v=l8isyDe-GwY> |
 
 
 ### Kết quả đạt được tuần 10:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Lên ý tưởng và hoàn thiện yêu cầu hệ thống:
+  * Xác định mục tiêu, phạm vi dự án và luồng xử lý chính
+  * Thiết kế sơ đồ Use Case và cơ sở dữ liệu (ERD) hoàn chỉnh
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Thiết kế kiến trúc AWS Cloud cho dự án:
+  * Lựa chọn các dịch vụ phù hợp (VPC, EC2, RDS, S3, CloudFront)
+  * Thiết kế sơ đồ phân hoạch mạng (VPC, Public/Private Subnets qua nhiều AZ)
+  * Vẽ thành công sơ đồ kiến trúc hệ thống (Architecture Diagram) bằng công cụ Draw.io
+  * Đánh giá tính khả thi và hoàn thiện mô hình triển khai hạ tầng đám mây

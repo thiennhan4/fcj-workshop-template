@@ -1,6 +1,6 @@
 ---
 title: "Worklog Tuần 11"
-date: 2024-01-01
+date: 16-06-2026
 weight: 2
 chapter: false
 pre: " <b> 1.11. </b> "
@@ -12,48 +12,39 @@ pre: " <b> 1.11. </b> "
 
 ### Mục tiêu tuần 11:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Khởi tạo dự án backend và thiết lập cấu trúc phân lớp.
+* Triển khai kết nối cơ sở dữ liệu, xây dựng các entity và DTO.
+* Xây dựng chức năng xác thực bằng JWT và hoàn thiện các API cốt lõi (User, Field, Booking, Payment).
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Khởi tạo dự án Backend <br>&emsp; + Xây dựng cấu trúc thư mục dự án theo kiến trúc phân lớp (layered architecture) | 26/06/2026 | 26/06/2026 | |
+| 3   | - Xây dựng các entity, DTO và cấu hình kết nối cơ sở dữ liệu <br>&emsp; + Thiết lập Connection Pool và cấu hình ORM | 27/06/2026 | 27/06/2026 | |
+| 4   | - Xây dựng chức năng đăng ký, đăng nhập người dùng <br>&emsp; + Tích hợp JWT (JSON Web Tokens) cho bảo mật và xác thực | 28/06/2026 | 28/06/2026 | |
+| 5   | - Xây dựng API quản lý người dùng và quản lý sân <br>&emsp; + Viết các endpoint CRUD cơ bản cho sân và tài khoản | 29/06/2026 | 29/06/2026 | |
+| 6   | - Xây dựng API đặt sân (booking) và xử lý logic nghiệp vụ <br>&emsp; + Kiểm tra slots trống, tránh xung đột lịch đặt sân | 30/06/2026 | 30/06/2026 | |
+| 7   | - Xây dựng service xử lý thanh toán <br>&emsp; + Cập nhật trạng thái đặt sân sau giao dịch thành công <br> - Rà soát, tối ưu code backend core và bổ sung validate dữ liệu đầu vào | 01/07/2026 | 02/07/2026 | |
 
 
 ### Kết quả đạt được tuần 11:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Khởi tạo dự án backend cấu trúc phân lớp khoa học:
+  * Phân tách rạch ròi các lớp: Controller, Service, Repository, Entity
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Cấu hình thành công tầng kết nối cơ sở dữ liệu:
+  * Thiết lập các thực thể dữ liệu (entities) và DTOs tương ứng
+  * Cấu hình connection pool giúp kết nối cơ sở dữ liệu ổn định
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Triển khai cơ chế xác thực và phân quyền:
+  * Bảo mật hệ thống với cơ chế xác thực stateless bằng JWT
+  * Phân quyền truy cập theo vai trò (Người dùng, Chủ sân, Quản trị viên)
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Phát triển hoàn thiện các API nghiệp vụ cốt lõi:
+  * Các API CRUD quản lý người dùng và thông tin sân thể thao
+  * API đặt sân với thuật toán kiểm tra xung đột slot và lịch đặt
+  * Service xử lý thanh toán, cập nhật trạng thái đặt sân tự động khi nhận callback thanh toán
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Tối ưu hóa hiệu năng và bảo mật mã nguồn:
+  * Bổ sung bộ lọc middleware để validate chặt chẽ dữ liệu đầu vào
+  * Tối ưu hóa truy vấn SQL đảm bảo phản hồi API nhanh chóng

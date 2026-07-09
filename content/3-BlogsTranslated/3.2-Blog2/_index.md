@@ -1,126 +1,102 @@
 ---
 title: "Blog 2"
-date: 2024-01-01
-weight: 1
+date: 08-07-2026
+weight: 2
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+# SECURING .NET MICROSERVICES ON AWS WITH MICROSOFT ENTRA ID
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+While learning about Microservices architecture on AWS, I came across the article **"Securing .NET Microservices with Entra ID on AWS"** published on the AWS .NET Blog. What impressed me most is how AWS combines **Microsoft Entra ID (formerly Azure AD)** with **OAuth 2.0 Client Credentials Flow** to build a secure authentication and authorization mechanism between .NET microservices running on AWS.
 
 ---
 
-## Architecture Guidance
+## 1. The Challenge
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+In a Microservices architecture, services frequently communicate with each other. For example:
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+- Order Service calls Inventory Service to check product availability.
+- Inventory Service then calls Pricing Service to calculate product pricing.
 
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
-
----
-
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
-
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+Without a proper authentication mechanism, services may access one another without sufficient control, increasing the risk of unauthorized access and data exposure.
 
 ---
 
-## Technology Choices and Communication Scope
+## 2. AWS Solution
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+AWS recommends registering each microservice as an **Application** in Microsoft Entra ID. Each service is assigned its own:
 
----
+- Client ID
+- Client Secret
+- Scope (permissions)
 
-## The Pub/Sub Hub
+When **Service A** needs to communicate with **Service B**, the process is as follows:
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
+1. Service A sends its Client ID and Client Secret to Microsoft Entra ID.
+2. Entra ID validates the credentials and issues an **Access Token**.
+3. Service A sends a request to Service B with the Access Token in the `Authorization: Bearer` header.
+4. Service B validates the Access Token before processing the request.
 
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+This ensures that only authorized services can access protected APIs.
 
 ---
 
-## Core Microservice
+## 3. Key Highlights
 
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
+The article also introduces several best practices for securing service-to-service communication:
 
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+- Use **OAuth 2.0 Client Credentials Flow** for machine-to-machine authentication.
+- Store **Client Secrets** securely in **AWS Secrets Manager** instead of hard-coding them.
+- Cache **Access Tokens** until they are close to expiration to reduce authentication requests and improve performance.
+- Use the `[Authorize]` attribute in ASP.NET Core to automatically protect APIs from unauthorized requests.
 
 ---
 
-## Front Door Microservice
+## 4. Evaluation Based on the AWS Well-Architected Framework
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+### Security
+
+- Each microservice has its own identity and permissions.
+- Only authorized services are allowed to access protected APIs.
+
+### Operational Excellence
+
+- Secrets are centrally managed using AWS Secrets Manager.
+- Credentials can be rotated and managed more efficiently.
+
+### Reliability
+
+- Access Tokens are validated and refreshed when necessary.
+- Authentication remains stable and reliable across services.
+
+### Performance Efficiency
+
+- Token caching reduces latency.
+- Fewer authentication requests are sent to Microsoft Entra ID.
+
+### Cost Optimization
+
+- Reduces unnecessary authentication requests.
+- Takes advantage of AWS managed services to lower operational costs.
 
 ---
 
-## Staging ER7 Microservice
+## 5. Conclusion
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+In my opinion, this is an effective solution for organizations running **.NET Microservices** on AWS while using **Microsoft Entra ID** as their identity provider. By implementing **OAuth 2.0 Client Credentials Flow**, each microservice has its own identity and communicates securely with other services. Combined with AWS Secrets Manager and token caching, this approach improves security, scalability, and operational efficiency while following AWS security best practices.
 
 ---
 
-## New Features in the Solution
+## 6. Original Article
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+https://aws.amazon.com/blogs/dotnet/securing-net-microservices-with-entra-id-on-aws/
+
+---
+
+## 7. Guide
+
+- Read the original AWS article to understand the complete architecture.
+- Learn more about OAuth 2.0 Client Credentials Flow and Microsoft Entra ID.
+- Practice implementing secure service-to-service authentication for .NET Microservices on Amazon ECS, Amazon EKS, or AWS Fargate using AWS Secrets Manager.

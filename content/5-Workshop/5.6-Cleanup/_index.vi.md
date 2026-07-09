@@ -8,30 +8,122 @@ pre : " <b> 5.6. </b> "
 
 #### Dọn dẹp tài nguyên
 
-Xin chúc mừng bạn đã hoàn thành xong lab này!
-Trong lab này, bạn đã học về các mô hình kiến trúc để truy cập Amazon S3 mà không sử dụng Public Internet.
+Sau khi hoàn thành quá trình triển khai và kiểm thử hệ thống **SportBooking**, tôi tiến hành xóa các tài nguyên AWS đã sử dụng nhằm tránh phát sinh chi phí không cần thiết và đảm bảo môi trường AWS được dọn dẹp sau khi kết thúc quá trình thực hành.
 
-+ Bằng cách tạo Gateway endpoint, bạn đã cho phép giao tiếp trực tiếp giữa các tài nguyên EC2 và Amazon S3, mà không đi qua Internet Gateway.
-Bằng cách tạo Interface endpoint, bạn đã mở rộng kết nối S3 đến các tài nguyên chạy trên trung tâm dữ liệu trên chỗ của bạn thông qua AWS Site-to-Site VPN hoặc Direct Connect.
+Trong quá trình này, các dịch vụ được xóa theo thứ tự phù hợp để tránh xảy ra lỗi phụ thuộc giữa các tài nguyên.
+
+---
 
 #### Dọn dẹp
-1. Điều hướng đến Hosted Zones trên phía trái của bảng điều khiển Route 53. Nhấp vào tên của  s3.us-east-1.amazonaws.com zone. Nhấp vào Delete và xác nhận việc xóa bằng cách nhập từ khóa "delete".
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/delete-zone.png)
+1. Xóa **Amazon ECS Service**.
 
-2. Disassociate Route 53 Resolver Rule - myS3Rule from "VPC Onprem" and Delete it. 
++ Truy cập **Amazon ECS**.
++ Chọn Cluster của hệ thống SportBooking.
++ Dừng và xóa ECS Service đang chạy.
 
-![hosted zone](/images/5-Workshop/5.6-Cleanup/vpc.png)
+![Cleanup ECS](/images/CleanUp/ECS.jpg)
 
-4.Mở console của CloudFormation và xóa hai stack CloudFormation mà bạn đã tạo cho bài thực hành này:
-+ PLOnpremSetup
-+ PLCloudSetup
+---
 
-![delete stack](/images/5-Workshop/5.6-Cleanup/delete-stack.png)
+2. Xóa **Amazon ECR Repository**.
 
-5. Xóa các S3 bucket
++ Truy cập **Amazon ECR**.
++ Xóa Docker Images trong Repository.
++ Xóa Private Repository sau khi Repository không còn Image.
 
-+ Mở bảng điều khiển S3
-+ Chọn bucket chúng ta đã tạo cho lab, nhấp chuột và xác nhận là empty. Nhấp Delete và xác nhận delete.
-+ 
-![delete s3](/images/5-Workshop/5.6-Cleanup/delete-s3.png)
+![Cleanup ECR](/images/CleanUp/ECR.jpg)
+
+---
+
+3. Xóa **Amazon EC2 Instance**.
+
++ Truy cập **Amazon EC2**.
++ Chọn EC2 Instance đã tạo.
++ Thực hiện **Terminate Instance**.
+
+![Cleanup EC2](/images/CleanUp/EC2.jpg)
+
+---
+
+4. Xóa **Amazon RDS Database**.
+
++ Truy cập **Amazon RDS**.
++ Chọn Database Instance.
++ Tắt tùy chọn tạo Final Snapshot (nếu không cần lưu dữ liệu).
++ Xác nhận xóa Database.
+
+![Cleanup RDS](/images/CleanUp/RDS.jpg)
+
+---
+
+5. Xóa **Amazon ElastiCache for Redis**.
+
++ Truy cập **Amazon ElastiCache**.
++ Chọn Redis Cluster.
++ Xóa Cache Cluster.
+
+![Cleanup ElastiCache](/images/CleanUp/ElasticCache.jpg)
+
+---
+
+6. Xóa **IAM Role**.
+
++ Truy cập **AWS IAM**.
++ Chọn IAM Role đã sử dụng cho Amazon ECS.
++ Xóa Role sau khi các dịch vụ liên quan đã được gỡ bỏ.
+
+![Cleanup IAM Role](/images/CleanUp/IAM_Role.jpg)
+
+---
+
+7. Xóa **Security Group**.
+
++ Truy cập **Amazon VPC**.
++ Chọn Security Group đã tạo cho hệ thống.
++ Xóa Security Group sau khi không còn tài nguyên sử dụng.
+
+![Cleanup Security Group](/images/CleanUp/Security_Group.jpg)
+
+---
+
+8. Xóa **Subnets**.
+
++ Chọn các Public Subnets và Private Subnets đã tạo.
++ Thực hiện xóa toàn bộ Subnets.
+
+![Cleanup Subnet](/images/CleanUp/Subnets.jpg)
+
+---
+
+9. Xóa **Route Table**.
+
++ Xóa các Route Tables đã tạo cho hệ thống.
++ Đảm bảo không còn liên kết với bất kỳ Subnet nào trước khi xóa.
+
+![Cleanup Route Table](/images/CleanUp/Route_Table.jpg)
+
+---
+
+10. Xóa **Internet Gateway**.
+
++ Detach Internet Gateway khỏi Amazon VPC.
++ Xóa Internet Gateway.
+
+![Cleanup Internet Gateway](/images/CleanUp/VPC_InternetGateway.jpg)
+
+---
+
+11. Xóa **Amazon VPC**.
+
++ Truy cập **Amazon VPC**.
++ Chọn VPC của hệ thống SportBooking.
++ Xóa VPC sau khi tất cả tài nguyên liên quan đã được gỡ bỏ.
+
+![Cleanup VPC](/images/CleanUp/VPC.jpg)
+
+---
+
+#### Tóm tắt
+
+Sau khi hoàn thành các bước trên, toàn bộ tài nguyên AWS của hệ thống **SportBooking** đã được dọn dẹp thành công. Việc xóa các tài nguyên sau khi hoàn tất quá trình triển khai và kiểm thử giúp tránh phát sinh chi phí không cần thiết, đồng thời đảm bảo môi trường AWS luôn sạch và sẵn sàng cho các lần triển khai tiếp theo.

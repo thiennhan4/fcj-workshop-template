@@ -1,6 +1,6 @@
 ---
 title: "Week 5 Worklog"
-date: 2024-01-01
+date:  15-05-2026
 weight: 1
 chapter: false
 pre: " <b> 1.5. </b> "
@@ -12,46 +12,39 @@ pre: " <b> 1.5. </b> "
 
 ### Week 5 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Study VPC Peering and its use cases.
+* Study AWS Transit Gateway and compare with VPC Peering.
+* Practice configuring VPC Peering and Transit Gateway labs.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Learn Module 03: VPC Peering <br>&emsp; + VPC Peering concepts and use cases <br>&emsp; + Cross-Region and Cross-Account peering <br>&emsp; + Limitations and routing considerations | 15/05/2026 | 15/05/2026      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 3   | - **Practice:** Lab - Create VPC Peering Connection <br>&emsp; + Create VPC Peering between two VPCs in different Regions <br>&emsp; + Accept peering request and verify connectivity | 16/05/2026 | 16/05/2026      | <https://000019.awsstudygroup.com/> |
+| 4   | - **Practice:** Lab - Configure Route Table for VPC Peering <br>&emsp; + Update Route Tables in both VPCs <br>&emsp; + Test cross-VPC communication between EC2 instances | 17/05/2026 | 17/05/2026      | <https://000019.awsstudygroup.com/> |
+| 5   | - Learn Module 03: AWS Transit Gateway <br>&emsp; + Transit Gateway architecture and concepts <br>&emsp; + Comparison with traditional VPC Peering model <br>&emsp; + Hub-and-spoke network topology | 18/05/2026 | 18/05/2026      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> |
+| 6   | - **Practice:** Lab - Create Transit Gateway & Attachments <br>&emsp; + Create Transit Gateway <br>&emsp; + Create Transit Gateway Attachments for multiple VPCs <br>&emsp; + Configure Transit Gateway Route Table | 19/05/2026 | 20/05/2026      | <https://000020.awsstudygroup.com/> |
+| 7   | - **Practice:** Complete Transit Gateway Lab <br>&emsp; + Verify routing between attached VPCs <br>&emsp; + Test cross-VPC connectivity <br>&emsp; + Clean up resources | 21/05/2026 | 21/05/2026      | <https://000020.awsstudygroup.com/> |
 
 
 ### Week 5 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood VPC Peering concepts:
+  * VPC Peering connection types (same Region, cross-Region, cross-Account)
+  * Routing configuration for peered VPCs
+  * Limitations: no transitive peering
 
-* Successfully created and configured an AWS Free Tier account.
+* Successfully completed VPC Peering lab:
+  * Created VPC Peering Connection between two VPCs in different Regions
+  * Configured Route Tables and verified cross-VPC communication
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Understood AWS Transit Gateway architecture:
+  * Hub-and-spoke topology for centralized network management
+  * Advantages over traditional VPC Peering model
+  * Transit Gateway Route Table concepts
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Successfully completed Transit Gateway lab:
+  * Created Transit Gateway and attached multiple VPCs
+  * Configured Transit Gateway Route Table
+  * Verified routing between all attached VPCs
+  * Cleaned up all resources after lab completion

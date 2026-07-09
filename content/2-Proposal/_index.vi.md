@@ -1,108 +1,251 @@
 ---
 title: "Bản đề xuất"
-date: 2024-01-01
+date : 08-07-2026
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-Tại phần này, bạn cần tóm tắt các nội dung trong workshop mà bạn **dự tính** sẽ làm.
+# Hệ thống đặt sân thể thao
 
-# IoT Weather Platform for Lab Research  
-## Giải pháp AWS Serverless hợp nhất cho giám sát thời tiết thời gian thực  
+## Giải pháp triển khai ứng dụng Web trên AWS
 
-### 1. Tóm tắt điều hành  
-IoT Weather Platform được thiết kế dành cho nhóm *ITea Lab* tại TP. Hồ Chí Minh nhằm nâng cao khả năng thu thập và phân tích dữ liệu thời tiết. Nền tảng hỗ trợ tối đa 5 trạm thời tiết, có khả năng mở rộng lên 10–15 trạm, sử dụng thiết bị biên Raspberry Pi kết hợp cảm biến ESP32 để truyền dữ liệu qua MQTT. Nền tảng tận dụng các dịch vụ AWS Serverless để cung cấp giám sát thời gian thực, phân tích dự đoán và tiết kiệm chi phí, với quyền truy cập giới hạn cho 5 thành viên phòng lab thông qua Amazon Cognito.  
+### 1. Tóm tắt điều hành
 
-### 2. Tuyên bố vấn đề  
-*Vấn đề hiện tại*  
-Các trạm thời tiết hiện tại yêu cầu thu thập dữ liệu thủ công, khó quản lý khi có nhiều trạm. Không có hệ thống tập trung cho dữ liệu hoặc phân tích thời gian thực, và các nền tảng bên thứ ba thường tốn kém và quá phức tạp.  
+Hệ thống đặt sân thể thao được xây dựng nhằm hỗ trợ người dùng tìm kiếm, đặt sân và quản lý lịch sử đặt sân trực tuyến thông qua nền tảng web. Hệ thống được triển khai trên hạ tầng AWS theo kiến trúc nhiều lớp (Multi-tier Architecture), đảm bảo tính sẵn sàng cao, bảo mật và khả năng mở rộng.
 
-*Giải pháp*  
-Nền tảng sử dụng AWS IoT Core để tiếp nhận dữ liệu MQTT, AWS Lambda và API Gateway để xử lý, Amazon S3 để lưu trữ (bao gồm data lake), và AWS Glue Crawlers cùng các tác vụ ETL để trích xuất, chuyển đổi, tải dữ liệu từ S3 data lake sang một S3 bucket khác để phân tích. AWS Amplify với Next.js cung cấp giao diện web, và Amazon Cognito đảm bảo quyền truy cập an toàn. Tương tự như Thingsboard và CoreIoT, người dùng có thể đăng ký thiết bị mới và quản lý kết nối, nhưng nền tảng này hoạt động ở quy mô nhỏ hơn và phục vụ mục đích sử dụng nội bộ. Các tính năng chính bao gồm bảng điều khiển thời gian thực, phân tích xu hướng và chi phí vận hành thấp.  
+Kiến trúc sử dụng Amazon ECS để triển khai ứng dụng dưới dạng container, Amazon RDS làm cơ sở dữ liệu, Redis để lưu cache, Amazon S3 lưu trữ tệp tĩnh và hình ảnh, CloudFront giúp phân phối nội dung nhanh hơn và Route 53 quản lý tên miền. Hệ thống được bảo vệ bởi AWS WAF và AWS Certificate Manager cung cấp chứng chỉ SSL.
 
-*Lợi ích và hoàn vốn đầu tư (ROI)*  
-Giải pháp tạo nền tảng cơ bản để các thành viên phòng lab phát triển một nền tảng IoT lớn hơn, đồng thời cung cấp nguồn dữ liệu cho những người nghiên cứu AI phục vụ huấn luyện mô hình hoặc phân tích. Nền tảng giảm bớt báo cáo thủ công cho từng trạm thông qua hệ thống tập trung, đơn giản hóa quản lý và bảo trì, đồng thời cải thiện độ tin cậy dữ liệu. Chi phí hàng tháng ước tính 0,66 USD (theo AWS Pricing Calculator), tổng cộng 7,92 USD cho 12 tháng. Tất cả thiết bị IoT đã được trang bị từ hệ thống trạm thời tiết hiện tại, không phát sinh chi phí phát triển thêm. Thời gian hoàn vốn 6–12 tháng nhờ tiết kiệm đáng kể thời gian thao tác thủ công.  
+---
 
-### 3. Kiến trúc giải pháp  
-Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu từ 5 trạm dựa trên Raspberry Pi, có thể mở rộng lên 15 trạm. Dữ liệu được tiếp nhận qua AWS IoT Core, lưu trữ trong S3 data lake và xử lý bởi AWS Glue Crawlers và ETL jobs để chuyển đổi và tải vào một S3 bucket khác cho mục đích phân tích. Lambda và API Gateway xử lý bổ sung, trong khi Amplify với Next.js cung cấp bảng điều khiển được bảo mật bởi Cognito.  
+## 2. Tuyên bố vấn đề
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+### Vấn đề hiện tại
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+Nhiều sân thể thao vẫn quản lý lịch đặt sân bằng điện thoại hoặc sổ sách dẫn đến:
 
-*Dịch vụ AWS sử dụng*  
-- *AWS IoT Core*: Tiếp nhận dữ liệu MQTT từ 5 trạm, mở rộng lên 15.  
-- *AWS Lambda*: Xử lý dữ liệu và kích hoạt Glue jobs (2 hàm).  
-- *Amazon API Gateway*: Giao tiếp với ứng dụng web.  
-- *Amazon S3*: Lưu trữ dữ liệu thô (data lake) và dữ liệu đã xử lý (2 bucket).  
-- *AWS Glue*: Crawlers lập chỉ mục dữ liệu, ETL jobs chuyển đổi và tải dữ liệu.  
-- *AWS Amplify*: Lưu trữ giao diện web Next.js.  
-- *Amazon Cognito*: Quản lý quyền truy cập cho người dùng phòng lab.  
+- Khó quản lý lịch đặt.
+- Dễ xảy ra trùng lịch.
+- Không có hệ thống thanh toán và quản lý tập trung.
+- Khó mở rộng khi số lượng sân tăng.
+- Không đảm bảo tính sẵn sàng khi lượng người truy cập lớn.
 
-*Thiết kế thành phần*  
-- *Thiết bị biên*: Raspberry Pi thu thập và lọc dữ liệu cảm biến, gửi tới IoT Core.  
-- *Tiếp nhận dữ liệu*: AWS IoT Core nhận tin nhắn MQTT từ thiết bị biên.  
-- *Lưu trữ dữ liệu*: Dữ liệu thô lưu trong S3 data lake; dữ liệu đã xử lý lưu ở một S3 bucket khác.  
-- *Xử lý dữ liệu*: AWS Glue Crawlers lập chỉ mục dữ liệu; ETL jobs chuyển đổi để phân tích.  
-- *Giao diện web*: AWS Amplify lưu trữ ứng dụng Next.js cho bảng điều khiển và phân tích thời gian thực.  
-- *Quản lý người dùng*: Amazon Cognito giới hạn 5 tài khoản hoạt động.  
+### Giải pháp
 
-### 4. Triển khai kỹ thuật  
-*Các giai đoạn triển khai*  
-Dự án gồm 2 phần — thiết lập trạm thời tiết biên và xây dựng nền tảng thời tiết — mỗi phần trải qua 4 giai đoạn:  
-1. *Nghiên cứu và vẽ kiến trúc*: Nghiên cứu Raspberry Pi với cảm biến ESP32 và thiết kế kiến trúc AWS Serverless (1 tháng trước kỳ thực tập).  
-2. *Tính toán chi phí và kiểm tra tính khả thi*: Sử dụng AWS Pricing Calculator để ước tính và điều chỉnh (Tháng 1).  
-3. *Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp*: Tinh chỉnh (ví dụ tối ưu Lambda với Next.js) để đảm bảo hiệu quả (Tháng 2).  
-4. *Phát triển, kiểm thử, triển khai*: Lập trình Raspberry Pi, AWS services với CDK/SDK và ứng dụng Next.js, sau đó kiểm thử và đưa vào vận hành (Tháng 2–3).  
+Giải pháp triển khai hệ thống trên AWS với kiến trúc Cloud Native.
 
-*Yêu cầu kỹ thuật*  
-- *Trạm thời tiết biên*: Cảm biến (nhiệt độ, độ ẩm, lượng mưa, tốc độ gió), vi điều khiển ESP32, Raspberry Pi làm thiết bị biên. Raspberry Pi chạy Raspbian, sử dụng Docker để lọc dữ liệu và gửi 1 MB/ngày/trạm qua MQTT qua Wi-Fi.  
-- *Nền tảng thời tiết*: Kiến thức thực tế về AWS Amplify (lưu trữ Next.js), Lambda (giảm thiểu do Next.js xử lý), AWS Glue (ETL), S3 (2 bucket), IoT Core (gateway và rules), và Cognito (5 người dùng). Sử dụng AWS CDK/SDK để lập trình (ví dụ IoT Core rules tới S3). Next.js giúp giảm tải Lambda cho ứng dụng web fullstack.  
+Người dùng truy cập website thông qua Route 53 và CloudFront.
 
-### 5. Lộ trình & Mốc triển khai  
-- *Trước thực tập (Tháng 0)*: 1 tháng lên kế hoạch và đánh giá trạm cũ.  
-- *Thực tập (Tháng 1–3)*:  
-    - Tháng 1: Học AWS và nâng cấp phần cứng.  
-    - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
-    - Tháng 3: Triển khai, kiểm thử, đưa vào sử dụng.  
-- *Sau triển khai*: Nghiên cứu thêm trong vòng 1 năm.  
+CloudFront kết hợp AWS WAF để tăng tốc độ truy cập và chống các cuộc tấn công Web.
 
-### 6. Ước tính ngân sách  
-Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01)  
-Hoặc tải [tệp ước tính ngân sách](../attachments/budget_estimation.pdf).  
+Application Load Balancer phân phối yêu cầu đến các container chạy trên Amazon ECS.
 
-*Chi phí hạ tầng*  
-- AWS Lambda: 0,00 USD/tháng (1.000 request, 512 MB lưu trữ).  
-- S3 Standard: 0,15 USD/tháng (6 GB, 2.100 request, 1 GB quét).  
-- Truyền dữ liệu: 0,02 USD/tháng (1 GB vào, 1 GB ra).  
-- AWS Amplify: 0,35 USD/tháng (256 MB, request 500 ms).  
-- Amazon API Gateway: 0,01 USD/tháng (2.000 request).  
-- AWS Glue ETL Jobs: 0,02 USD/tháng (2 DPU).  
-- AWS Glue Crawlers: 0,07 USD/tháng (1 crawler).  
-- MQTT (IoT Core): 0,08 USD/tháng (5 thiết bị, 45.000 tin nhắn).  
+Ứng dụng truy cập cơ sở dữ liệu Amazon RDS đặt trong Private Subnet.
 
-*Tổng*: 0,7 USD/tháng, 8,40 USD/12 tháng  
-- *Phần cứng*: 265 USD một lần (Raspberry Pi 5 và cảm biến).  
+Redis được sử dụng để cache dữ liệu nhằm giảm tải Database.
 
-### 7. Đánh giá rủi ro  
-*Ma trận rủi ro*  
-- Mất mạng: Ảnh hưởng trung bình, xác suất trung bình.  
-- Hỏng cảm biến: Ảnh hưởng cao, xác suất thấp.  
-- Vượt ngân sách: Ảnh hưởng trung bình, xác suất thấp.  
+Hình ảnh và tài nguyên tĩnh được lưu trữ trên Amazon S3.
 
-*Chiến lược giảm thiểu*  
-- Mạng: Lưu trữ cục bộ trên Raspberry Pi với Docker.  
-- Cảm biến: Kiểm tra định kỳ, dự phòng linh kiện.  
-- Chi phí: Cảnh báo ngân sách AWS, tối ưu dịch vụ.  
+Amazon ECR lưu Docker Image của ứng dụng.
 
-*Kế hoạch dự phòng*  
-- Quay lại thu thập thủ công nếu AWS gặp sự cố.  
-- Sử dụng CloudFormation để khôi phục cấu hình liên quan đến chi phí.  
+AWS Secrets Manager lưu thông tin Database và các khóa bí mật.
 
-### 8. Kết quả kỳ vọng  
-*Cải tiến kỹ thuật*: Dữ liệu và phân tích thời gian thực thay thế quy trình thủ công. Có thể mở rộng tới 10–15 trạm.  
-*Giá trị dài hạn*: Nền tảng dữ liệu 1 năm cho nghiên cứu AI, có thể tái sử dụng cho các dự án tương lai.
+Amazon CloudWatch theo dõi toàn bộ hệ thống và gửi cảnh báo qua Amazon SNS.
+
+### Lợi ích
+
+- Tự động mở rộng hệ thống.
+- Bảo mật cao.
+- Đảm bảo tính sẵn sàng.
+- Dễ triển khai phiên bản mới.
+- Giảm thời gian quản trị hệ thống.
+- Tăng hiệu suất truy cập nhờ CloudFront và Redis.
+
+---
+
+## 3. Kiến trúc giải pháp
+
+Hệ thống được triển khai trong một Amazon VPC bao gồm Public Subnet và Private Subnet trên hai Availability Zone nhằm đảm bảo tính sẵn sàng cao.
+
+Luồng hoạt động của hệ thống như sau:
+
+1. Người dùng truy cập website thông qua Route 53.
+
+2. CloudFront phân phối nội dung và giảm độ trễ.
+
+3. AWS WAF kiểm tra và lọc các yêu cầu độc hại.
+
+4. Các yêu cầu hợp lệ được chuyển đến Application Load Balancer.
+
+5. ALB phân phối lưu lượng đến các container chạy trên Amazon ECS.
+
+6. ECS xử lý nghiệp vụ của hệ thống.
+
+7. Dữ liệu được lưu trong Amazon RDS (Primary DB).
+
+8. Redis cache dữ liệu thường xuyên truy cập.
+
+9. Amazon RDS Standby tại Availability Zone thứ hai đảm bảo khả năng khôi phục khi xảy ra sự cố.
+
+10. Amazon S3 lưu trữ giao diện frontend và các tệp người dùng tải lên.
+
+11. Docker Image của ứng dụng được lưu trên Amazon ECR.
+
+12. AWS Secrets Manager quản lý thông tin đăng nhập Database.
+
+13. Amazon CloudWatch giám sát toàn bộ tài nguyên.
+
+14. Amazon SNS gửi email cảnh báo cho quản trị viên khi hệ thống phát sinh lỗi.
+
+![Kiến trúc hệ thống](/images/diagram_aws.jpg)
+
+### Dịch vụ AWS sử dụng
+
+- Amazon Route 53
+- Amazon CloudFront
+- AWS WAF
+- AWS Certificate Manager
+- Amazon S3
+- Amazon VPC
+- Public Subnet
+- Private Subnet
+- NAT Gateway
+- Application Load Balancer
+- Amazon ECS
+- Amazon RDS
+- Amazon ElastiCache for Redis
+- Amazon ECR
+- AWS Secrets Manager
+- Amazon CloudWatch
+- Amazon SNS
+
+### Thiết kế thành phần
+
+**Edge Layer**
+
+- Route 53 quản lý tên miền.
+- CloudFront phân phối nội dung.
+- AWS WAF bảo vệ ứng dụng.
+- ACM cung cấp SSL.
+- Amazon S3 lưu trữ Frontend và Uploads.
+
+**Application Layer**
+
+- ALB cân bằng tải.
+- Amazon ECS chạy Backend.
+- Amazon ECR lưu Docker Image.
+
+**Database Layer**
+
+- Amazon RDS Primary.
+- Amazon RDS Standby.
+- Redis Cache.
+
+**Monitoring Layer**
+
+- CloudWatch giám sát.
+- SNS gửi Email cảnh báo.
+
+---
+
+## 4. Triển khai kỹ thuật
+
+### Giai đoạn 1
+
+- Phân tích yêu cầu.
+- Thiết kế cơ sở dữ liệu.
+- Thiết kế kiến trúc AWS.
+
+### Giai đoạn 2
+
+- Tạo VPC.
+- Cấu hình Subnet.
+- NAT Gateway.
+- Security Group.
+
+### Giai đoạn 3
+
+- Triển khai Amazon ECS.
+- Đưa Docker Image lên Amazon ECR.
+- Cấu hình Application Load Balancer.
+
+### Giai đoạn 4
+
+- Triển khai Amazon RDS.
+- Redis.
+- Secrets Manager.
+
+### Giai đoạn 5
+
+- Cấu hình CloudFront.
+- Route53.
+- AWS WAF.
+- ACM.
+
+### Giai đoạn 6
+
+- Thiết lập CloudWatch.
+- SNS.
+- Kiểm thử.
+- Đưa hệ thống vào vận hành.
+
+---
+
+## 5. Lộ trình triển khai
+
+| Giai đoạn | Nội dung |
+|-----------|----------|
+| Tháng 1 | Thiết kế hệ thống |
+| Tháng 2 | Xây dựng Backend và Database |
+| Tháng 3 | Triển khai ECS và RDS |
+| Tháng 4 | Kiểm thử và triển khai thực tế |
+
+---
+
+## 6. Ước tính ngân sách
+
+Chi phí bao gồm:
+
+- Amazon ECS
+- Amazon RDS
+- Amazon ElastiCache
+- Amazon CloudFront
+- Route53
+- S3
+- NAT Gateway
+- Application Load Balancer
+- CloudWatch
+- SNS
+
+Tổng chi phí phụ thuộc vào cấu hình EC2/ECS, dung lượng cơ sở dữ liệu và lưu lượng truy cập thực tế.
+
+---
+
+## 7. Đánh giá rủi ro
+
+### Rủi ro
+
+- ECS gặp sự cố.
+- Database quá tải.
+- Redis lỗi.
+- Tấn công DDoS.
+- Hết dung lượng Database.
+
+### Giải pháp
+
+- ECS chạy trên nhiều Availability Zone.
+- RDS Multi-AZ.
+- CloudFront giảm tải.
+- AWS WAF chống tấn công.
+- CloudWatch giám sát và SNS gửi cảnh báo.
+
+---
+
+## 8. Kết quả kỳ vọng
+
+- Hệ thống hoạt động ổn định 24/7.
+- Có khả năng mở rộng khi lượng người dùng tăng.
+- Đảm bảo tính bảo mật.
+- Giảm thời gian triển khai nhờ Docker và ECS.
+- Đảm bảo dữ liệu luôn sẵn sàng với RDS Multi-AZ.
+- Dễ dàng bảo trì và nâng cấp trong tương lai.
