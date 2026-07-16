@@ -17,7 +17,7 @@ Trong phần này, tôi tiến hành cấu hình các chính sách bảo mật (
 + Tạo IAM Role dành cho Amazon ECS Task.
 + Gán các quyền cần thiết để ứng dụng có thể truy cập Amazon ECR, Amazon CloudWatch và AWS Secrets Manager.
 
-![IAM Role](/images/cloud/IAM/IAM_Role.jpg)
+![IAM Role](/images/cloud/IAM/IAM_ROLE.jpg)
 
 ---
 

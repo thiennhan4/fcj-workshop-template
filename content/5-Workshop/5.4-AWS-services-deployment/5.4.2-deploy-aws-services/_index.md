@@ -96,7 +96,7 @@ In this section, I deploy the AWS services required for the SportBooking system.
 
 ![Load Balancer](/images/cloud/EC2/Load_Balances1.jpg)
 
-![Target Group](/images/cloud/EC2/Target_group)
+![Target Group](/images/cloud/EC2/Target_group.jpg)
 
 ![Amazon EC2](/images/cloud/EC2/EC2.jpg)
 

@@ -48,7 +48,7 @@ In this section, I verify the SportBooking application after the deployment proc
 
 ![Redis](/images/cloud/Redis/Redis.jpg)
 
-![Amazon ElastiCache](/images/cloud/Redis/ElastiCache.jpg)
+![Amazon ElastiCache](/images/cloud/ElastiCache/ElastiCache.jpg)
 
 ---
 

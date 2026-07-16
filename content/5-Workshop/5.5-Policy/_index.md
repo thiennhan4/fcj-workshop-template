@@ -17,7 +17,7 @@ In this section, I configure the security policies for the SportBooking system t
 + Create an IAM Role for Amazon ECS Tasks.
 + Grant the required permissions for the application to access Amazon ECR, Amazon CloudWatch, and AWS Secrets Manager.
 
-![IAM Role](/images/cloud/IAM/IAM_Role.jpg)
+![IAM Role](/images/cloud/IAM/IAM_ROLE.jpg)
 
 ---
 
